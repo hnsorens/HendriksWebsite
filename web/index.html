@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Software Developer Portfolio">
+    <title>Software Developer Portfolio</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+}
+        /* General Reset and Dark Mode Background */
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: "Poppins", sans-serif;
+            background-color: #1e1e2f; /* Dark Blue-Gray */
+            color: #dcdce0; /* Light Gray */
+            overflow-x: hidden;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #121223; /* Deep Blue-Gray */
+            color: #eeeeee; /* Light Blue */
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin: 0;
+        }
+
+        header p {
+            font-size: 1.2em;
+            color: #eeeeee; /* Subtle Gray */
+        }
+
+        /* Navigation Bar Styles */
+        nav {
+            background-color: #1a1a2e; /* Darker Blue-Gray */
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        nav a {
+            color: #eeeeee; /* Light Blue */
+            padding: 10px 20px;
+            text-decoration: none;
+            margin: 0 15px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #2d2d42; /* Slightly Lighter Blue-Gray */
+            color: #eeeeee; /* White on Hover */
+        }
+
+        /* Section Styles */
+        section {
+            padding: 40px;
+            margin: 40px auto;
+            max-width: 1200px;
+            background-color: #29293d; /* Medium Blue-Gray */
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        section h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #eeeeee;
+        }
+
+        section p {
+            font-size: 1.1em;
+            color: #eeeeee; /* Light Blue-Gray */
+        }
+
+        /* Projects Grid */
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .project-card {
+            padding-top:100px;
+            background-color: #33334b; /* Slightly Darker Blue */
+            padding: 20px;
+            padding-top:35px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-card img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .project-card h3 {
+            font-size: 1.5em;
+            color: #eeeeee; /* Light Blue */
+        }
+
+        .project-card p {
+            font-size: 1.1em;
+            color: #b4b4c2; /* Light Blue-Gray */
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #121223; /* Deep Blue-Gray */
+            color: #dcdce0;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 1em;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        footer a {
+            color: #aad6f5; /* Light Blue */
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #ffffff; /* White on Hover */
+        }
+        .section__text {
+  align-self: center;
+  text-align: center;
+  font-size: 40px;
+}
+
+.section__text p {
+  font-weight: 600;
+}
+
+.section__text__p1 {
+  text-align: center;
+  align-self: center;
+  font-size: 50px;
+  color: rgb(180, 180, 180);
+  font-weight: 600;
+  color: white;
+}
+
+.section__text__p2 {
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+  color: rgb(194, 186, 186);
+  text-align: center;
+  align-self: center;
+}
+.btn-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.btn {
+  font-weight: 600;
+  transition: all 300ms ease;
+  padding: 1rem;
+  width: 8rem;
+  border-radius: 2rem;
+}
+
+.btn-color-1,
+.btn-color-2 {
+  border: rgb(53, 53, 53) 0.1rem solid;
+  color: white
+}
+
+.btn-color-1:hover,
+.btn-color-2:hover {
+  cursor: pointer;
+}
+
+.btn-color-1,
+.btn-color-2:hover {
+  background: white;
+  color: rgb(0, 0, 0);
+}
+
+.btn-color-1:hover {
+  background: none;
+  color: white;
+}
+
+.btn-color-2 {
+  background: none;
+}
+
+.btn-color-2:hover {
+  border: rgb(255, 255, 255) 0.1rem solid;
+  background-color: white;
+}
+
+.btn-container {
+  gap: 1rem;
+}
+.contact-info-upper-container {
+  display: flex;
+  justify-content: center;
+  border-radius: 2rem;
+  border: rgb(53, 53, 53) 0.1rem solid;
+  border-color: rgb(163, 163, 163);
+  background: (250, 250, 250);
+  margin: 2rem auto;
+  padding: 0.5rem;
+}
+
+.contact-info-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 1rem;
+}
+
+.contact-info-container p {
+  font-size: larger;
+}
+
+.contact-icon {
+  cursor: default;
+}
+
+.email-icon {
+  height: 2.5rem;
+}
+
+
+a {
+  color: rgb(212, 212, 212);
+  text-decoration: none;
+  text-decoration-color: white;
+}
+
+a:hover {
+  color: rgb(77, 77, 77);
+  text-decoration: underline;
+  text-underline-offset: 1rem;
+  text-decoration-color: rgb(181, 181, 181);
+}
+        
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 style="text-align: left; margin-left: 5%;">Hendrik Sorensen</h1>
+</header>
+
+<nav>
+    <a href="#about">About Me</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+</nav>
+<section id="profile">
+    <div style="display: flex; width: 100%;">
+        <div style="width: 400px; height:30%;">
+            <img style="width:100%;" src="./assets/profile-pic.png" alt="Hendrik Sorensen profile picture" />
+          </div>
+          <div style="width:500px; margin-left: 10%; margin-top:10%;">
+            <p class="section__text">Hello, I'm</p>
+            <p class="section__text__p1">Hendrik Sorensen</p>
+            <p class="section__text__p2">Software Developer</p>
+            <div class="btn-container">
+              <button
+              class="btn btn-color-2"
+                onclick="window.open('./assets/resume-example.pdf')"
+              >
+                Download CV
+              </button>
+              <button class="btn btn-color-1" onclick="location.href='./#contact'">
+                Contact Info
+              </button>
+            </div>
+            <div id="socials-container" style="text-align: center; margin-top: 5%">
+              <img
+                style="width: 12%;"
+                src="./assets/linkedin.png"
+                alt="My LinkedIn profile"
+                class="icon"
+                onclick="location.href='https://www.linkedin.com/in/hendrik-sorensen-76553b28b/'"
+              />
+              <img
+                style="width: 12%; margin-left: 5%;"
+                src="./assets/github.png"
+                alt="My Github profile"
+                class="icon"
+                onclick="location.href='https://github.com/orgs/HnsorensSoftware/repositories'"
+              />
+            </div>
+          </div>
+
+    </div>
+    
+  </section>
+<section id="about">
+    <h2>About Me</h2>
+    <p>Hello! I'm Hendrik Sorensen, a passionate software developer with a focus on building clean, efficient, and user-friendly applications. I specialize in low level software engineering, with a strong interest in artificial intelligence, maching learning, computer graphics, and compilers.</p>
+</section>
+
+
+<section id="projects">
+    <h2>Projects</h2>
+    <div class="projects">
+        <div class="project-card">
+            <img src="https://via.placeholder.com/300" alt="Project 1">
+            <h3>Project 1</h3>
+            <p>A full-stack web application built using React and Node.js to manage personal tasks and goals.</p>
+        </div>
+        <div class="project-card">
+            <img src="https://via.placeholder.com/300" alt="Project 2">
+            <h3>Project 2</h3>
+            <p>A mobile app developed with Flutter that tracks daily health statistics and provides recommendations.</p>
+        </div>
+        <div class="project-card">
+            <img src="https://via.placeholder.com/300" alt="Project 3">
+            <h3>Project 3</h3>
+            <p>An AI-powered data analysis tool built in Python, which automates data cleaning and analysis tasks.</p>
+        </div>
+    </div>
+</section>
+
+<section id="contact">
+    <p class="section__text__p1">Get in Touch</p>
+    <h1 class="title" style="text-align: center;">Contact Me</h1>
+    <div class="contact-info-upper-container" style="margin-left: auto; margin-right: auto; width: 500px;">
+      <div class="contact-info-container">
+        <img
+          src="./assets/email.png"
+          alt="Email icon"
+          class="icon contact-icon email-icon"
+        />
+        <p><a href="mailto:hnsorens@gmail.com">Hnsorens@gmail.com</a></p>
+      </div>
+      <div class="contact-info-container">
+        <img
+          src="./assets/linkedin.png"
+          alt="LinkedIn icon"
+          class="icon contact-icon email-icon"
+        />
+        <p><a href="https://www.linkedin.com/in/hendrik-sorensen-76553b28b/">LinkedIn</a></p>
+      </div>
+    </div>
+  </section>
+
+<footer>
+    <p>&copy; 2024 Hendrik Sorensen. All rights reserved. | <a href="mailto:hnsorens.doe@gmail.com">Contact Me</a></p>
+</footer>
+
+</body>
+</html>
