@@ -21,12 +21,12 @@
                 <li><a href="#TokensMacro">Tokens Macro</a></li>
                 <li><a href="#ignoreTokensMacro">IgnoreTokens Macro</a></li>
                 <li><a href="#NodeMacro">AST Nodes</a></li>
-                <li><a href="#IterationSteps">Iteration </a></li>
-                <li><a href="#any_rule">any_rule Implementation</a></li>
-                <li><a href="#all_rule">all_rule Implementation</a></li> 
-                <li><a href="#IterationFunctions">Iteration Functions</a></li> 
-                <li><a href="#SemanticIteration">Semantic Iteration</a></li> 
-                <li><a href="#CodeGenerationIteration">Code Generation Iteration</a></li> 
+                <li><a href="#recurseSteps">recurse </a></li>
+                <li><a href="#anyRule">anyRule Implementation</a></li>
+                <li><a href="#allRule">allRule Implementation</a></li> 
+                <li><a href="#recurseFunctions">recurse Functions</a></li> 
+                <li><a href="#Semanticrecurse">Semantic recurse</a></li> 
+                <li><a href="#CodeGenerationrecurse">Code Generation recurse</a></li> 
                 <li><a href="#Compiling">Copmiler Function Call</a></li> 
                 <li><a href="#Extending">Extending and Customizing the Compiler</a></li> 
                 <li><a href="#Conclusion">Conclusion</a></li> 
@@ -43,14 +43,14 @@
             </header>
             <section id="Overview">
                 <h2>Overview</h2>
-                <p>This document provides a detailed explanation of the macro-based compiler builder written in C, a tool designed to aid in building compilers using a flexible and modular macro system. This approach allows the user to define the components of a compiler — such as tokens, Abstract Syntax Tree (AST) nodes, parsing rules, and iteration steps — in a highly customizable and extensible manner. By leveraging macros, this tool simplifies the process of building a compiler by allowing for dynamic definition and processing of language rules, tokens, and transformations.</p>
+                <p>This document provides a detailed explanation of the macro-based compiler builder written in C, a tool designed to aid in building compilers using a flexible and modular macro system. This approach allows the user to define the components of a compiler — such as tokens, Abstract Syntax Tree (AST) nodes, parsing rules, and recurse steps — in a highly customizable and extensible manner. By leveraging macros, this tool simplifies the process of building a compiler by allowing for dynamic definition and processing of language rules, tokens, and transformations.</p>
                 <p>The compiler builder works by defining the compiler components in a header file using macros. The macros specify how the source code is tokenized, how the Abstract Syntax Tree (AST) is built, and how various compiler passes (such as semantic analysis and code generation) are handled.</p>
                 <p>This documentation will provide a deep dive into the usage, capabilities, and inner workings of the macro system used to define a compiler. Code examples are included to demonstrate the different features and how they are combined to create a working compiler.</p>
             </section>
             <h1>Macro-Based Compiler Builder Structure</h1>
             <section id="COMPILERMacroDefinition">
                 <h2>COMPILER Macro Definition</h2>
-                <p>The <b>COMPILER</b> macro is the entry point for defining a compiler. This macro assigns a name to the compiler, which is later used throughout the system. The macro establishes the context for all the tokens, rules, and iteration steps that are defined later.</p>
+                <p>The <b>COMPILER</b> macro is the entry point for defining a compiler. This macro assigns a name to the compiler, which is later used throughout the system. The macro establishes the context for all the tokens, rules, and recurse steps that are defined later.</p>
                 <pre><code class="language-c">
 #define COMPILER MY_COMPILER
                 </code></pre>
@@ -58,7 +58,7 @@
             </section>
             <section id="createCompilerMacro">
                 <h2>createCompiler</h2>
-                <p>The <b>createCompiler</b> macro generates the header file for the compiler, which includes definitions for the tokens, AST node types, and iteration steps. This macro groups together several other macros, including tokens, ignoreTokens, node, and iterationStep, among others.</p>
+                <p>The <b>createCompiler</b> macro generates the header file for the compiler, which includes definitions for the tokens, AST node types, and recurse steps. This macro groups together several other macros, including tokens, ignoreTokens, node, and recurseStep, among others.</p>
                 <pre><code class="language-c">
 #define COMPILER MY_COMPILER
 createCompiler(
@@ -98,44 +98,44 @@ createCompiler(
             </section>
             <section id="NodeMacro">
                 <h1>AST Nodes</h1>
-                <p>The <b>node</b> macro is used to define the structure of an AST node. Every AST node is associated with a parsing rule. Rules can either be <code class="language-c">any_rule</code> or <code class="language-c">all_rule</code>:</p>
-                <p><b>any_rule</b>: Matches any one of the specified rules.</p>
-                <p><b>all_rule</b>: Matches all of the specified rules in assending order.</p>
-                <p>Each rule can include tokens or other AST nodes. The node also defines variables (via the <code class="language-c">var</code> macro), which store information to be used later in the iteration steps.</p>
+                <p>The <b>node</b> macro is used to define the structure of an AST node. Every AST node is associated with a parsing rule. Rules can either be <code class="language-c">anyRule</code> or <code class="language-c">allRule</code>:</p>
+                <p><b>anyRule</b>: Matches any one of the specified rules.</p>
+                <p><b>allRule</b>: Matches all of the specified rules in assending order.</p>
+                <p>Each rule can include tokens or other AST nodes. The node also defines variables (via the <code class="language-c">var</code> macro), which store information to be used later in the recurse steps.</p>
                 <pre><code class="language-c">
 createCompiler(
     node(Expr
-        any_rule(PLUS, MINUS)
+        anyRule(PLUS, MINUS)
         var(int, value, 0)   // Variable `value` to hold the result
     )
 )   
                 </code></pre>
-                <p>In this example the <code class="language-c">Expr</code> node matches either the <code class="language-c">PLUS</code> or <code class="language-c">MINUS</code> token (via the <code class="language-c">any_rule</code>) and has a variable <code class="language-c">value</code> to store some result (innitialized to 0).</p>
+                <p>In this example the <code class="language-c">Expr</code> node matches either the <code class="language-c">PLUS</code> or <code class="language-c">MINUS</code> token (via the <code class="language-c">anyRule</code>) and has a variable <code class="language-c">value</code> to store some result (innitialized to 0).</p>
                 <pre><code class="language-c">
 createCompiler(
     node(Statement
-        all_rule(IDENTIFIER, PLUS)
+        allRule(IDENTIFIER, PLUS)
         var(int, count, 0)
     )
 )
                 </code></pre>
-                <p>The <code class="language-c">Statement</code> node uses <code class="language-c">all_rule</code>, meaning it expects both an <code class="language-c">IDENTIFIER</code> and a <code class="language-c">PLUS</code> token to form a valid statement. The node also defines a variables <code class="language-c">count</code> to track the number of times this rules is applied.</p>
+                <p>The <code class="language-c">Statement</code> node uses <code class="language-c">allRule</code>, meaning it expects both an <code class="language-c">IDENTIFIER</code> and a <code class="language-c">PLUS</code> token to form a valid statement. The node also defines a variables <code class="language-c">count</code> to track the number of times this rules is applied.</p>
             </section>
-            <section id="IterationSteps">
-                <h2>Iteration Steps</h2>
-                <p>Iteration steps are macros used to define the actions performed at various stages of compilation, such as parsing, semantic analysis, and code generation. These steps are executed sequentially after parsing is completed. Each iteration step is defined using the <b>iterationStep</b> macro.</p>
-                <p>This example sets up two iteration steps:</p>
+            <section id="recurseSteps">
+                <h2>recurse Steps</h2>
+                <p>recurse steps are macros used to define the actions performed at various stages of compilation, such as parsing, semantic analysis, and code generation. These steps are executed sequentially after parsing is completed. Each recurse step is defined using the <b>recurseStep</b> macro.</p>
+                <p>This example sets up two recurse steps:</p>
                 <p><b>semantics</b>: Responsible for checking the program's semantics (e.g., type checking, variable scoping).</p>
                 <p><b>codegen</b>: Responsible for generating the target code (e.g., assembly or machine code).</p>
             </section>
             <h1>AST Node Definitions</h1>
-            <p>Each AST node is defined using the <b>node</b> macro. Depending on whether the node uses <code class="language-c">any_rule</code> or <code class="language-c">all_rule</code>, the structure of the node will differ. Below are examples of both. It is important to note that the <b>Root</b> node will always be the beggining of the code compilation.</p>
-            <section id="any_rule">
-                <h2>any_rule Node</h2>
-                <p>For a node that uses <code class="language-c">any_rule</code>, the node structure includes a <code class="language-c">var_index</code> field that identifies which rule is currently active. The rule options are stored in a union, as only one of them will be active at a time.</p>
+            <p>Each AST node is defined using the <b>node</b> macro. Depending on whether the node uses <code class="language-c">anyRule</code> or <code class="language-c">allRule</code>, the structure of the node will differ. Below are examples of both. It is important to note that the <b>Root</b> node will always be the beggining of the code compilation.</p>
+            <section id="anyRule">
+                <h2>anyRule Node</h2>
+                <p>For a node that uses <code class="language-c">anyRule</code>, the node structure includes a <code class="language-c">var_index</code> field that identifies which rule is currently active. The rule options are stored in a union, as only one of them will be active at a time.</p>
                 <pre><code class="language-c">
 node(Expr
-    any_rule(PLUS, MINUS)
+    anyRule(PLUS, MINUS)
     var(int, value, 0)
 )
                 </code></pre>
@@ -151,11 +151,11 @@ struct Expr {
 };
                 </code></pre>
             </section>
-            <section id="all_rule">
-                <p>For a node that uses <code class="language-c">all_rule</code>, all of the specified rules are directly included in the structure, and no union is needed.</p>
+            <section id="allRule">
+                <p>For a node that uses <code class="language-c">allRule</code>, all of the specified rules are directly included in the structure, and no union is needed.</p>
                 <pre><code class="language-c">
 node(Statement
-    all_rule(IDENTIFIER, PLUS)
+    allRule(IDENTIFIER, PLUS)
     var(int, count, 0)
 )
                 </code></pre>
@@ -167,20 +167,20 @@ struct Statement {
     int count;      // Variable to track how often the rule is used
 };
                 </code></pre>
-            </section id="IterationFunctions">
-            <h1>Iteration Functions</h1>
-            <p>Iteration functions are defined for each node and iteration step (e.g., semantics, code generation). The iteration functions take in the AST node and the output file (<code class="language-c">FILE* file</code>) as parameters.</p>
-            <p>The <b>iteration</b> macro is used to define an iteration step function for a given node. The specify the node that the iteration function is being defined for, define <b>NODE</b> as the name of the node.</p>
+            </section id="RecurseFunctions">
+            <h1>Recurse Functions</h1>
+            <p>Recurse functions are defined for each node and recurse step (e.g., semantics, code generation). The recurse functions take in the AST node and the output file (<code class="language-c">FILE* file</code>) as parameters.</p>
+            <p>The <b>recurse</b> macro is used to define an recurse step function for a given node. The specify the node that the recurse function is being defined for, define <b>NODE</b> as the name of the node.</p>
             <pre><code class="language-c">
 #define NODE Root
             </code></pre>
-            <p>When defining the iteration functions, it is important to include the <code class="language-c">continue_it();</code> macro which continues the iteration recursive process.</p>
-            <section id="SemanticIteration">
-                <h2>Semantic Iteration</h2>
-                <p>The semantic iteration is an example of an iteration step that can be put into place. During the <b>semantics</b> iteration, the compiler checks the program's semantic correctness, such as type checking or variable scoping. The iteration function may modify the AST or perform validation.</p>
+            <p>When defining the recurse functions, it is important to include the <code class="language-c">continue_it();</code> macro which continues the recurse recursive process.</p>
+            <section id="Semanticrecurse">
+                <h2>Semantic recurse</h2>
+                <p>The semantic recurse is an example of an recurse step that can be put into place. During the <b>semantics</b> recurse, the compiler checks the program's semantic correctness, such as type checking or variable scoping. The recurse function may modify the AST or perform validation.</p>
                 <pre><code class="language-c">
 #define NODE Expr
-iteration(semantics)
+recurse(semantics)
 {
     continue_it();
     if (var_0->var_index == 1) {  // PLUS rule
@@ -192,12 +192,12 @@ iteration(semantics)
                 </code></pre>
                 <p>In this example, the function checks which rule is being applied (using the <code class="language-c">var_index</code>) and sets the <code class="language-c">value</code> of the node accordingly. The <code class="language-c">continue_it();</code> is called at the beggining so the child nodes are populated before any values are potentially taken from them. This is a good practice for semantics.</p>
             </section>
-            <section id="CodeGenerationIteration">
-                <h2>Code Generation Iteration</h2>
-                <p>The code generation iteration step is another example of an iteration step. The <code class="language-c">codegen</code> iteration is responsible for generating the target code based on the AST. This might involve translating AST nodes into assembly or intermediate code.</p>
+            <section id="CodeGenerationrecurse">
+                <h2>Code Generation recurse</h2>
+                <p>The code generation recurse step is another example of an recurse step. The <code class="language-c">codegen</code> recurse is responsible for generating the target code based on the AST. This might involve translating AST nodes into assembly or intermediate code.</p>
                 <pre><code class="language-c">
 #define NODE Statement
-iteration(codegen)
+recurse(codegen)
 {
     if (var_0->var_index == 1) {  // IDENTIFIER rule
         fprintf(file, "var_%d", var_0->var_1.identifier);
@@ -208,7 +208,7 @@ iteration(codegen)
     continue_it();
 }
                 </code></pre>
-                <p>In this code generation iteration, the function writes to the output file based on the active rule. It generates a code snippet for an identifier or a plus sign (<code class="language-c">+</code>), depending on which rule is applied. The <code class="language-c">continue_it();</code> is after the code is written to file to keep the code in order. In some cases <code class="language-c">continue_it();</code> may be in the center, when a node requires code to be written before and after its childeren nodes.</p>
+                <p>In this code generation recurse, the function writes to the output file based on the active rule. It generates a code snippet for an identifier or a plus sign (<code class="language-c">+</code>), depending on which rule is applied. The <code class="language-c">continue_it();</code> is after the code is written to file to keep the code in order. In some cases <code class="language-c">continue_it();</code> may be in the center, when a node requires code to be written before and after its childeren nodes.</p>
 
             </section>
             <h1>Compiling</h1>
@@ -233,7 +233,7 @@ int main()
 
             <section id="Extending">
                 <h1>Extending and Customizing the Compiler</h1>
-                <p>One of the key advantages of this macro-based compiler builder is its modularity. You can easily extend and customize the compiler by adding new tokens, rules, and iteration steps. For example:</p>
+                <p>One of the key advantages of this macro-based compiler builder is its modularity. You can easily extend and customize the compiler by adding new tokens, rules, and recurse steps. For example:</p>
                 <pre><code class="language-c">
 createCompiler(
     tokens(
@@ -241,19 +241,19 @@ createCompiler(
         token(DIVIDE, "^\\/")
     )
     node(MultExpr
-        any_rule(MULTIPLY, DIVIDE)
+        anyRule(MULTIPLY, DIVIDE)
         var(int, result, 0)
     )
-    iterationStep(semantics)
-    iterationStep(codegen)
+    recurseStep(semantics)
+    recurseStep(codegen)
 )
                 </code></pre>
-                <p>In this example, we add new tokens (<code class="language-c">MULTIPLY</code> and <code class="language-c">DIVIDE</code>) and a new node (<code class="language-c">MultExpr</code>) that can match either multiplication or division operations. The iteration steps for semantics and code generation are defined as before.</p>
+                <p>In this example, we add new tokens (<code class="language-c">MULTIPLY</code> and <code class="language-c">DIVIDE</code>) and a new node (<code class="language-c">MultExpr</code>) that can match either multiplication or division operations. The recurse steps for semantics and code generation are defined as before.</p>
 
             </section>
             <section>
                 <h1>Conclusion</h1>
-                <p>The macro-based compiler builder in C provides a flexible and extensible way to define the components of a compiler. By using macros to define tokens, AST nodes, and iteration steps, it allows for rapid development and customization. The modularity of the system makes it easy to add new features, such as new tokens or compilation passes, and to modify existing ones as needed.</p>
+                <p>The macro-based compiler builder in C provides a flexible and extensible way to define the components of a compiler. By using macros to define tokens, AST nodes, and recurse steps, it allows for rapid development and customization. The modularity of the system makes it easy to add new features, such as new tokens or compilation passes, and to modify existing ones as needed.</p>
                 <p>The use of macros, while somewhat complex at first, provides a powerful mechanism for building highly modular and configurable compilers that can be adapted to a wide range of programming languages and compiler strategies. By customizing each component (tokenization, parsing, semantics, and code generation), you can create a complete, functioning compiler that meets your needs.</p>
             </section>
             <footer>
