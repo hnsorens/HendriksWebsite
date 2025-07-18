@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hendrik Sorensen - Vulkan Voxel Engine Portfolio">
+    <meta property="og:title" content="Vulkan Voxel Engine | Real-Time Raytraced Voxel World">
+    <meta property="og:description" content="A professional, high-performance real-time raytraced voxel engine built with Vulkan.">
+    <meta property="og:image" content="assets/project-1.png">
+    <meta property="og:type" content="website">
+    <title>Vulkan Voxel Engine | Real-Time Raytraced Voxel World</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+        :root {
+            --primary: #eaf0f6;
+            --secondary: #c3d0e6;
+            --dark: #181c24;
+            --darker: #10131a;
+            --light: #e5e7eb;
+            --lighter: #f9fafb;
+            --accent: #2561a7;
+            --accent2: #2196f3;
+            --divider: #232a3b;
+            --header-height: 4.5rem;
+        }
+        body.light-mode {
+            --primary: #181c24;
+            --secondary: #2561a7;
+            --dark: #f9fafb;
+            --darker: #eaf0f6;
+            --light: #e5e7eb;
+            --lighter: #232a3b;
+            --accent: #2561a7;
+            --accent2: #2196f3;
+            --divider: #c3d0e6;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: "Poppins", sans-serif;
+            min-height: 100vh;
+            color: var(--primary);
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+            font-size: 1.13rem;
+            line-height: 1.8;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            transition: background 0.4s, color 0.3s;
+        }
+        header {
+            position: sticky;
+            top: 0; left: 0; width: 100%;
+            height: var(--header-height);
+            padding: 0 6vw;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000;
+            background: rgba(24, 28, 36, 0.98);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--divider);
+            box-shadow: 0 2px 8px rgba(24,28,36,0.10);
+            transition: all 0.3s ease;
+        }
+        body.light-mode header {
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(37,97,167,0.08);
+            border-bottom: 1px solid var(--divider);
+        }
+        .logo {
+            font-size: 2.1rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: var(--accent);
+            text-decoration: none;
+        }
+        nav { display: flex; gap: 2.2rem; }
+        nav a {
+            position: relative;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.08rem;
+            padding: 0.5rem 0;
+            letter-spacing: 0.5px;
+            transition: color 0.2s, border-bottom 0.2s;
+        }
+        nav a::after {
+            content: '';
+            position: absolute; bottom: 0; left: 0; width: 0; height: 2px;
+            background: var(--accent);
+            transition: width 0.2s;
+        }
+        nav a:hover::after { width: 100%; }
+        nav a:hover { color: var(--accent); }
+        .dark-toggle {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin-left: 1.5rem;
+            transition: color 0.2s;
+        }
+        .dark-toggle:hover { color: var(--accent); }
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+        /* --- OPEN, FLAT DESIGN BELOW THIS LINE, DO NOT TOUCH HERO --- */
+        .section {
+            background: none;
+            border-radius: 0;
+            box-shadow: none;
+            margin: 3.5rem auto 2.5rem auto;
+            padding: 0 0 2.5rem 0;
+            max-width: 1100px;
+            border: none;
+            border-bottom: 2px solid var(--divider);
+            position: relative;
+            transition: background 0.3s, color 0.3s;
+        }
+        .section:last-of-type {
+            border-bottom: none;
+        }
+        .section h2 {
+            font-size: 2.1rem;
+            margin-bottom: 1.2rem;
+            color: var(--accent);
+            font-weight: 700;
+            text-shadow: none;
+            letter-spacing: 0.5px;
+        }
+        .section h3 {
+            font-size: 1.25rem;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 0.7rem;
+        }
+        .section ul, .section ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.07rem;
+        }
+        .section li {
+            margin-bottom: 0.5rem;
+        }
+        .about-section .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.13rem;
+        }
+        .about-highlight {
+            background: none;
+            border-left: 4px solid var(--accent);
+            padding: 0.7em 1.2em;
+            margin: 1.1em 0;
+            border-radius: 0.7em;
+            color: var(--primary);
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7em;
+        }
+        .features-section .feature-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            justify-content: center;
+        }
+        .feature-card {
+            background: none;
+            border: none;
+            border-radius: 0;
+            padding: 0.7rem 1.3rem 0.7rem 1.3rem;
+            min-width: 220px;
+            max-width: 320px;
+            flex: 1 1 250px;
+            box-shadow: none;
+            transition: color 0.2s, transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+        }
+        .feature-card:hover {
+            color: var(--accent);
+            transform: translateY(-4px) scale(1.03);
+        }
+        .feature-card i {
+            color: var(--accent);
+            margin-bottom: 0.7em;
+        }
+        .feature-card h3 {
+            color: var(--accent);
+            font-size: 1.13rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .feature-card p {
+            color: var(--lighter);
+            font-size: 1.01rem;
+        }
+        .deepdive-section {
+            max-width: 1100px;
+            margin: 0 auto 2.5rem auto;
+        }
+        .deepdive-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .deepdive-card {
+            background: none;
+            border: none;
+            border-radius: 0;
+            padding: 0.7rem 1.1rem 0.7rem 1.1rem;
+            box-shadow: none;
+            transition: color 0.2s, transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            min-height: 180px;
+        }
+        .deepdive-card:hover {
+            color: var(--accent);
+            transform: translateY(-2px) scale(1.01);
+        }
+        .deepdive-card i {
+            color: var(--accent);
+            margin-bottom: 0.6em;
+        }
+        .deepdive-card h3 {
+            color: var(--accent);
+            font-size: 1.11rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .deepdive-card ul {
+            margin-left: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--lighter);
+            font-size: 1.01rem;
+        }
+        .deepdive-code {
+            margin-top: 2.5rem;
+            background: none;
+            border: none;
+            border-radius: 0;
+            padding: 1.1rem 1.3rem;
+            box-shadow: none;
+        }
+        .deepdive-code h4 {
+            color: var(--accent);
+            font-size: 1.05rem;
+            margin-bottom: 0.7rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+        }
+        .deepdive-code pre {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-family: 'Fira Mono', 'Consolas', monospace;
+            font-size: 0.98rem;
+            margin: 0;
+            padding: 0;
+            overflow-x: auto;
+        }
+        .demo-section {
+            max-width: 1100px;
+            margin: 0 auto 2.5rem auto;
+        }
+        .demo-flex {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2.5rem;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        .demo-media {
+            flex: 1 1 350px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.2rem;
+        }
+        .demo-media video {
+            width: 100%;
+            max-width: 520px;
+            border-radius: 12px;
+            border: 1.5px solid var(--divider);
+            box-shadow: none;
+            background: #000;
+        }
+        .demo-gallery {
+            display: flex;
+            gap: 0.7rem;
+            margin-top: 0.7rem;
+        }
+        .gallery-img {
+            width: 90px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 7px;
+            border: 1.5px solid var(--divider);
+            box-shadow: none;
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+            cursor: pointer;
+        }
+        .gallery-img:hover {
+            transform: scale(1.12) rotate(-2deg);
+            border-color: var(--accent);
+        }
+        .demo-stats {
+            flex: 0 1 220px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            align-items: center;
+            margin-top: 1.2rem;
+        }
+        .stat-card {
+            background: none;
+            border: none;
+            border-radius: 0;
+            padding: 0.7rem 1.5rem;
+            box-shadow: none;
+            text-align: center;
+            min-width: 160px;
+            transition: color 0.2s, transform 0.2s;
+        }
+        .stat-card:hover {
+            color: var(--accent);
+            transform: translateY(-2px) scale(1.01);
+        }
+        .stat-value {
+            font-size: 2.1rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.3em;
+            transition: color 0.2s;
+        }
+        .stat-label {
+            color: var(--lighter);
+            font-size: 1.01rem;
+        }
+        .build-section {
+            max-width: 900px;
+            margin: 0 auto 2.5rem auto;
+        }
+        .build-flex {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2.5rem;
+            align-items: flex-start;
+        }
+        .build-instructions {
+            flex: 1 1 350px;
+            background: none;
+            border: none;
+            border-radius: 0;
+            padding: 0;
+            box-shadow: none;
+            transition: none;
+        }
+        .build-instructions ol {
+            margin-left: 1.2em;
+            margin-bottom: 1.1em;
+        }
+        .build-instructions pre {
+            background: none;
+            border-radius: 0;
+            color: var(--primary);
+            font-family: 'Fira Mono', 'Consolas', monospace;
+            font-size: 0.98rem;
+            padding: 0.7em 1em;
+            margin-bottom: 1.1em;
+            box-shadow: none;
+        }
+        .build-links {
+            display: flex;
+            gap: 1.1em;
+            margin-top: 0.7em;
+        }
+        .footer {
+            background: none;
+            padding: 2rem 5%;
+            text-align: center;
+            border-top: 1px solid var(--divider);
+            margin-top: 2.5rem;
+        }
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.1em;
+        }
+        .footer-social {
+            display: flex;
+            gap: 1.5em;
+            margin-bottom: 0.5em;
+        }
+        .footer-social a {
+            color: var(--primary);
+            font-size: 1.5rem;
+            transition: color 0.2s, transform 0.2s;
+        }
+        .footer-social a:hover {
+            color: var(--accent);
+            transform: scale(1.18) rotate(-8deg);
+        }
+        .footer-copy {
+            color: var(--lighter);
+            font-size: 0.97rem;
+        }
+        /* Responsive adjustments */
+        @media (max-width: 1100px) {
+            .demo-flex, .build-flex {
+                flex-direction: column;
+                align-items: center;
+            }
+            .section {
+                padding: 2rem 1rem 2.5rem 1rem;
+            }
+        }
+        @media (max-width: 900px) {
+            .features-section .feature-list {
+                flex-direction: column;
+                align-items: center;
+            }
+            .feature-card {
+                max-width: 95vw;
+            }
+            .deepdive-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 2vw; }
+            .section, .about-section, .features-section, .deepdive-section, .demo-section, .build-section {
+                padding: 1.2rem 0.5rem 2.5rem 0.5rem;
+                border-radius: 0;
+            }
+            .footer {
+                padding: 1.2rem 2vw;
+            }
+        }
+    </style>
+    <script>
+    // Dark/Light mode toggle
+    function toggleDarkMode() {
+        document.body.classList.toggle('light-mode');
+        localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+    }
+    window.onload = function() {
+        if(localStorage.getItem('theme') === 'light') {
+            document.body.classList.add('light-mode');
+        }
+    }
+    </script>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">Hendrik<span style="color:var(--primary);font-weight:400;">Sorensen</span></a>
+        <nav aria-label="Main Navigation">
+            <a href="index.html">Home</a>
+            <a href="#overview">Overview</a>
+            <a href="#features">Features</a>
+            <a href="#deepdive">Technical</a>
+            <a href="#demo">Demo</a>
+            <a href="#build">Build</a>
+        </nav>
+        <button class="dark-toggle" onclick="toggleDarkMode()" aria-label="Toggle dark/light mode"><i class="fas fa-moon"></i></button>
+    </header>
+    <main>
+        <section class="hero" id="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">Vulkan Voxel Engine</h1>
+                <div class="hero-tagline">A Real-Time Raytraced Voxel World Engine<br>by Hendrik Sorensen</div>
+                <div class="hero-cta">
+                    <a href="#demo" class="cta-btn"><i class="fas fa-play" style="margin-right:0.7em;"></i>See Demo</a>
+                    <a href="https://github.com/hnsorens/VulkanVoxelEngine" class="cta-btn" target="_blank"><i class="fab fa-github" style="margin-right:0.7em;"></i>View on GitHub</a>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- The rest of the content will be updated in the next steps -->
+    <section class="section about-section" id="overview">
+        <h2><i class="fas fa-cube" style="margin-right:0.5em;"></i>Project Overview</h2>
+        <div class="about-content">
+            <p>
+                <b>Vulkan Voxel Engine</b> is a next-generation, real-time voxel world renderer and simulator, built from scratch in C++ and GLSL. Leveraging Vulkan's hardware-accelerated raytracing, it delivers stunning visuals and high performance, featuring a fully procedural, multi-threaded terrain system. This project demonstrates advanced graphics programming, GPU compute, and modern game engine architecture.
+            </p>
+            <div class="about-highlight">
+                <i class="fas fa-bolt"></i> <b>Built for performance:</b> Real-time raytracing, multi-threaded chunk generation, and efficient GPU memory management.
+            </div>
+            <div class="about-highlight">
+                <i class="fas fa-mountain"></i> <b>Procedural worlds:</b> Every landscape is unique, generated on the fly with FastNoiseLite.
+            </div>
+        </div>
+    </section>
+    <section class="section features-section" id="features">
+        <h2><i class="fas fa-star" style="margin-right:0.5em;"></i>Key Features</h2>
+        <div class="feature-list">
+            <div class="feature-card">
+                <i class="fas fa-th-large fa-2x"></i>
+                <h3>Chunked Voxel World</h3>
+                <p>8x8x8 grid of 128³ voxel chunks (512 total), dynamically loaded and managed for seamless exploration.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-bolt fa-2x"></i>
+                <h3>Real-Time Vulkan Raytracing</h3>
+                <p>Hardware-accelerated raytracing pipeline for primary and secondary rays, delivering cinematic visuals.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-seedling fa-2x"></i>
+                <h3>Procedural Terrain</h3>
+                <p>FastNoiseLite-based, multi-threaded terrain generation with rich material assignment (stone, grass, flowers, etc.).</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-database fa-2x"></i>
+                <h3>Efficient Voxel Storage</h3>
+                <p>Bit-packed, chunked, and stored as GPU 3D textures for fast access and minimal memory usage.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-shapes fa-2x"></i>
+                <h3>Raymarching in Shaders</h3>
+                <p>Custom GLSL march function for LOD-aware, efficient intersection and traversal.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-sync-alt fa-2x"></i>
+                <h3>Dynamic Chunk Loading</h3>
+                <p>Multi-threaded chunk generation and prioritization based on camera position for smooth streaming.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-memory fa-2x"></i>
+                <h3>Optimized Memory Usage</h3>
+                <p>Chunk recycling, minimal GPU transfers, and LOD-based skipping for high efficiency.</p>
+            </div>
+        </div>
+    </section>
+    <section class="section deepdive-section" id="deepdive">
+        <h2><i class="fas fa-microscope" style="margin-right:0.5em;"></i>Technical Deep Dive</h2>
+        <div class="deepdive-grid">
+            <div class="deepdive-card">
+                <i class="fas fa-th-large fa-2x"></i>
+                <h3>Chunk System</h3>
+                <ul>
+                    <li>World divided into <b>8x8x8 chunks</b>, each 128³ voxels (512 total).</li>
+                    <li>Chunks stored as 3D textures on the GPU (<code>VK_FORMAT_R8_UINT</code>), with a chunk map (<code>VK_FORMAT_R16_UINT</code>).</li>
+                    <li>Chunk queue and worker threads for background generation and updates.</li>
+                    <li>Chunks repositioned and recycled as the player moves, minimizing memory usage.</li>
+                </ul>
+            </div>
+            <div class="deepdive-card">
+                <i class="fas fa-seedling fa-2x"></i>
+                <h3>Generation System</h3>
+                <ul>
+                    <li>Procedural terrain using <b>FastNoiseLite</b> for natural landscapes.</li>
+                    <li>Multi-threaded generation: each chunk is generated in parallel for fast world creation.</li>
+                    <li>Material assignment (stone, grass, flowers, etc.) based on noise and position.</li>
+                </ul>
+            </div>
+            <div class="deepdive-card">
+                <i class="fas fa-database fa-2x"></i>
+                <h3>Voxel Storage</h3>
+                <ul>
+                    <li>Each chunk: 128x128x128 array, stored as <code>uint8_t</code> (5 bits material, 3 bits LOD/layer).</li>
+                    <li>Chunks uploaded to GPU as <code>VK_FORMAT_R8_UINT</code> 3D textures.</li>
+                    <li>Chunk map (8x8x8, <code>VK_FORMAT_R16_UINT</code>) maps world positions to chunk IDs.</li>
+                </ul>
+            </div>
+            <div class="deepdive-card">
+                <i class="fas fa-bolt fa-2x"></i>
+                <h3>Raytracing</h3>
+                <ul>
+                    <li>Vulkan raytracing pipeline (<code>VK_KHR_ray_tracing</code>).</li>
+                    <li>Ray generation and miss shaders (<code>rgen.glsl</code>, <code>rmiss.glsl</code>).</li>
+                    <li>Raytracing command buffers run in parallel with rasterization.</li>
+                    <li>Shaders sample voxel textures and perform LOD-aware intersection.</li>
+                </ul>
+            </div>
+            <div class="deepdive-card">
+                <i class="fas fa-shapes fa-2x"></i>
+                <h3>Raymarching</h3>
+                <ul>
+                    <li>Custom <code>march</code> function in GLSL: steps through the world, using LOD/layer info to skip empty space efficiently.</li>
+                    <li>Combines ray-box intersection and LOD-aware stepping for fast traversal.</li>
+                    <li>Returns hit info, color, and material for shading.</li>
+                    <li>Used for both primary rays and secondary bounces (reflections, GI).</li>
+                </ul>
+            </div>
+        </div>
+        <div class="deepdive-code">
+            <h4><i class="fas fa-code"></i> Example: Voxel Bit Packing (C++)</h4>
+            <pre><code>// 5 bits material, 3 bits LOD/layer
+#define voxel_mat(voxel) ((voxel) & 0b11111)
+#define voxel_base(voxel) (((voxel) & 0b11100000) >> 5)
+
+// Efficiently store and retrieve voxel data
+uint8_t voxel = ...;
+uint8_t material = voxel_mat(voxel);
+uint8_t lod = voxel_base(voxel);
+</code></pre>
+        </div>
+    </section>
+    <section class="section" id="optimization">
+        <h2>Optimization</h2>
+        <ul>
+            <li><b>LOD/layer system:</b> Voxels can represent larger blocks at higher layers, reducing the number of steps for empty space.</li>
+            <li><b>Multi-threaded chunk generation and update:</b> Keeps the world responsive and smooth.</li>
+            <li><b>Chunk prioritization:</b> Chunks are sorted and loaded based on camera distance.</li>
+            <li><b>Efficient GPU memory usage:</b> Chunks are recycled and only minimal data is transferred.</li>
+            <li><b>Raytracing pipeline barriers and push constants:</b> Used for multi-pass effects and synchronization.</li>
+        </ul>
+        <p>These optimizations allow the engine to render large, detailed voxel worlds in real time, even on consumer hardware.</p>
+    </section>
+    <section class="section demo-section" id="demo">
+        <h2><i class="fas fa-play-circle" style="margin-right:0.5em;"></i>Demo & Showcase</h2>
+        <div class="demo-flex">
+            <div class="demo-media">
+                <video controls poster="assets/project-1.png" style="width:100%;max-width:520px;border-radius:12px;border:1.5px solid var(--divider);box-shadow:none;">
+                    <source src="assets/voxel-demo.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="demo-gallery">
+                    <img src="assets/step1-rays.png" alt="Raytracing Pass Visualization" class="gallery-img">
+                    <img src="assets/step2-nofog.png" alt="No Fog Visualization" class="gallery-img">
+                    <img src="assets/step2-color.png" alt="Full Color Visualization" class="gallery-img">
+                </div>
+            </div>
+            <div class="demo-stats">
+                <div class="stat-card">
+                    <div class="stat-value" data-target="3685">0</div>
+                    <div class="stat-label">Lines of C++ Code</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" data-target="512">0</div>
+                    <div class="stat-label">Voxel Chunks</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" data-target="128">0</div>
+                    <div class="stat-label">Voxels per Chunk (per axis)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" data-target="60">0</div>
+                    <div class="stat-label">FPS (Real-Time Raytracing)</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section build-section" id="build">
+        <h2><i class="fas fa-tools" style="margin-right:0.5em;"></i>How to Build & Run</h2>
+        <div class="build-flex">
+            <div class="build-instructions">
+                <ol>
+                    <li>Ensure you have a Vulkan-capable GPU and recent drivers.</li>
+                    <li>Clone the repository from <a href="https://github.com/hnsorens/VulkanVoxelEngine" target="_blank">GitHub</a>.</li>
+                    <li>Open a terminal in the <code>VoxelEngine</code> directory.</li>
+                    <li>Run the following commands:</li>
+                </ol>
+                <pre><code>./run.sh
+./voxels
+</code></pre>
+                <div class="build-links">
+                    <a href="https://github.com/hnsorens/VulkanVoxelEngine" class="cta-btn" target="_blank"><i class="fab fa-github" style="margin-right:0.7em;"></i>GitHub Repo</a>
+                    <a href="assets/resume-example.pdf" class="cta-btn" target="_blank"><i class="fas fa-file-pdf" style="margin-right:0.7em;"></i>Download Docs</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section" id="render-visuals">
+        <h2>Rendering Pipeline & Visuals</h2>
+        <p>
+            The Vulkan Voxel Engine uses a unique multi-pass raytracing approach for real-time rendering and lighting. The process is visualized below, with each step illustrated and explained. <b>Images and videos will be added here to demonstrate each stage.</b>
+        </p>
+        <div class="subsystem-section">
+            <h3>Step 1: Raytracing Passes & Lighting Accumulation</h3>
+            <ul>
+                <li>Rays are traced through the voxel world in several passes.</li>
+                <li>For each voxel hit, all lighting contributions (direct, indirect, bounces) are <b>atomically accumulated</b> into a single point per voxel.</li>
+                <li>This atomic accumulation ensures correct, race-free lighting even with many rays in flight.</li>
+            </ul>
+            <div class="visuals-row">
+                <div class="visual-block">
+                    <img src="assets/step1-rays.png" alt="Raytracing Pass Visualization" style="width:100%;max-width:350px;border-radius:10px;border:1.5px solid var(--divider);box-shadow:none;">
+                    <div class="caption">Rays traversing the voxel world (placeholder image)</div>
+                </div>
+                <div class="visual-block">
+                    <img src="assets/step1-dots.png" alt="Lighting Dots Visualization" style="width:100%;max-width:350px;border-radius:10px;border:1.5px solid var(--divider);box-shadow:none;">
+                    <div class="caption">Lighting contributions (dots) being accumulated per voxel (placeholder)</div>
+                </div>
+            </div>
+        </div>
+        <div class="subsystem-section">
+            <h3>Step 2: Color Rendering Pass</h3>
+            <ul>
+                <li>After lighting is accumulated, a second pass renders the final color for each voxel using the stored lighting data.</li>
+                <li>This separation allows for advanced effects and efficient parallelization.</li>
+            </ul>
+            <div class="visuals-row">
+                <div class="visual-block">
+                    <img src="assets/step2-nofog.png" alt="No Fog Visualization" style="width:100%;max-width:350px;border-radius:10px;border:1.5px solid var(--divider);box-shadow:none;">
+                    <div class="caption">Voxel colors rendered without fog (placeholder)</div>
+                </div>
+                <div class="visual-block">
+                    <img src="assets/step2-color.png" alt="Full Color Visualization" style="width:100%;max-width:350px;border-radius:10px;border:1.5px solid var(--divider);box-shadow:none;">
+                    <div class="caption">Final color output with all lighting applied (placeholder)</div>
+                </div>
+            </div>
+        </div>
+        <div class="subsystem-section">
+            <h3>Step 3: Demo Video</h3>
+            <ul>
+                <li>See the full rendering process in action, from raytracing to final image.</li>
+            </ul>
+            <div class="visual-block" style="text-align:center;">
+                <video controls style="width:100%;max-width:600px;border-radius:10px;border:1.5px solid var(--divider);box-shadow:none;">
+                    <source src="assets/voxel-demo.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="caption">Demo video of the Vulkan Voxel Engine rendering pipeline (placeholder)</div>
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-social">
+                <a href="mailto:hnsorens@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                <a href="https://github.com/hnsorens" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://linkedin.com/in/hendrik-sorensen" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            </div>
+            <div class="footer-copy">
+                &copy; 2025 Hendrik Sorensen. All rights reserved.
+            </div>
+        </div>
+    </footer>
+    <style>
+    .demo-section {
+        max-width: 1100px;
+        margin: 0 auto 2.5rem auto;
+    }
+    .demo-flex {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2.5rem;
+        justify-content: center;
+        align-items: flex-start;
+    }
+    .demo-media {
+        flex: 1 1 350px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.2rem;
+    }
+    .demo-gallery {
+        display: flex;
+        gap: 0.7rem;
+        margin-top: 0.7rem;
+    }
+    .gallery-img {
+        width: 90px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 7px;
+        border: 1.5px solid var(--divider);
+        box-shadow: none;
+        transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+        cursor: pointer;
+    }
+    .gallery-img:hover {
+        transform: scale(1.12) rotate(-2deg);
+        border-color: var(--accent);
+    }
+    .demo-stats {
+        flex: 0 1 220px;
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+        align-items: center;
+        margin-top: 1.2rem;
+    }
+    .stat-card {
+        background: none;
+        border: none;
+        border-radius: 0;
+        padding: 0.7rem 1.5rem;
+        box-shadow: none;
+        text-align: center;
+        min-width: 160px;
+        transition: color 0.2s, transform 0.2s;
+    }
+    .stat-card:hover {
+        color: var(--accent);
+        transform: translateY(-2px) scale(1.01);
+    }
+    .stat-value {
+        font-size: 2.1rem;
+        font-weight: 700;
+        color: var(--accent);
+        margin-bottom: 0.3em;
+        transition: color 0.2s;
+    }
+    .stat-label {
+        color: var(--lighter);
+        font-size: 1.01rem;
+    }
+    .build-section {
+        max-width: 900px;
+        margin: 0 auto 2.5rem auto;
+    }
+    .build-flex {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2.5rem;
+        align-items: flex-start;
+    }
+    .build-instructions {
+        flex: 1 1 350px;
+        background: none;
+        border: none;
+        border-radius: 0;
+        padding: 0;
+        box-shadow: none;
+        transition: none;
+    }
+    .build-instructions ol {
+        margin-left: 1.2em;
+        margin-bottom: 1.1em;
+    }
+    .build-instructions pre {
+        background: none;
+        border-radius: 0;
+        color: var(--primary);
+        font-family: 'Fira Mono', 'Consolas', monospace;
+        font-size: 0.98rem;
+        padding: 0.7em 1em;
+        margin-bottom: 1.1em;
+        box-shadow: none;
+    }
+    .build-links {
+        display: flex;
+        gap: 1.1em;
+        margin-top: 0.7em;
+    }
+    .footer {
+        background: none;
+        padding: 2rem 5%;
+        text-align: center;
+        border-top: 1px solid var(--divider);
+        margin-top: 2.5rem;
+    }
+    .footer-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.1em;
+    }
+    .footer-social {
+        display: flex;
+        gap: 1.5em;
+        margin-bottom: 0.5em;
+    }
+    .footer-social a {
+        color: var(--primary);
+        font-size: 1.5rem;
+        transition: color 0.2s, transform 0.2s;
+    }
+    .footer-social a:hover {
+        color: var(--accent);
+        transform: scale(1.18) rotate(-8deg);
+    }
+    .footer-copy {
+        color: var(--lighter);
+        font-size: 0.97rem;
+    }
+    .hero {
+        width: 100%;
+        min-height: 60vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 7rem 1.5rem 3rem 1.5rem;
+        background: linear-gradient(120deg, #10131a 60%, #2561a7 100%);
+        position: relative;
+        overflow: hidden;
+    }
+    .hero::before {
+        content: '';
+        position: absolute;
+        top: -10%; left: -10%; width: 120%; height: 120%;
+        background: radial-gradient(circle at 60% 40%, #2561a7 0%, transparent 70%),
+                    radial-gradient(circle at 20% 80%, #2196f3 0%, transparent 80%);
+        opacity: 0.18;
+        z-index: 0;
+        pointer-events: none;
+        animation: bgmove 30s linear infinite alternate;
+    }
+    @keyframes bgmove {
+        0% { background-position: 0 0, 0 0; }
+        100% { background-position: 100px 200px, -100px -100px; }
+    }
+    .hero-content {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .hero-title {
+        font-size: 3.2rem;
+        font-weight: 800;
+        color: var(--accent);
+        margin-bottom: 1.1rem;
+        letter-spacing: 1.2px;
+        text-align: center;
+    }
+    .hero-tagline {
+        font-size: 1.35rem;
+        color: var(--primary);
+        opacity: 0.95;
+        margin-bottom: 2.2rem;
+        text-align: center;
+        font-weight: 400;
+    }
+    .hero-cta {
+        display: flex;
+        gap: 1.2rem;
+        margin-bottom: 1.5rem;
+    }
+    .cta-btn {
+        display: inline-block;
+        padding: 0.95rem 2.5rem;
+        font-size: 1.18rem;
+        font-weight: 700;
+        color: #fff;
+        background: var(--accent);
+        border: none;
+        border-radius: 2rem;
+        box-shadow: 0 2px 12px 0 rgba(37,97,167,0.10);
+        text-decoration: none;
+        letter-spacing: 0.5px;
+        transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s;
+    }
+    .cta-btn:hover, .cta-btn:focus {
+        background: #17407a;
+        color: #eaf0f6;
+        box-shadow: 0 4px 24px 0 #2561a733;
+        transform: translateY(-2px) scale(1.04);
+    }
+    @media (max-width: 768px) {
+        .hero { padding-top: 5rem; }
+        .hero-title { font-size: 2.1rem; }
+    }
+    body.light-mode .hero {
+        background: linear-gradient(120deg, #d0e6fa 40%, #90caf9 100%) !important;
+        box-shadow: 0 8px 32px 0 rgba(33, 150, 243, 0.10), 0 2px 0 0 #b3d8fd;
+        border-bottom: 2px solid #b3d8fd;
+    }
+    body.light-mode .hero::before {
+        background: radial-gradient(circle at 60% 40%, #2196f3 0%, transparent 70%),
+                    radial-gradient(circle at 20% 80%, #90caf9 0%, transparent 80%);
+        opacity: 0.18;
+    }
+    body.light-mode .hero-title,
+    body.light-mode .hero-tagline {
+        color: #181c24;
+    }
+    body.light-mode .cta-btn {
+        color: #fff;
+        background: var(--accent);
+    }
+    body.light-mode .cta-btn:hover, body.light-mode .cta-btn:focus {
+        background: #17407a;
+        color: #eaf0f6;
+    }
+    </style>
+    <script>
+    // Animated counters for stats
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.stat-value').forEach(function(el) {
+            const target = +el.getAttribute('data-target');
+            let count = 0;
+            const step = Math.max(1, Math.floor(target / 60));
+            function update() {
+                count += step;
+                if (count >= target) {
+                    el.textContent = target;
+                } else {
+                    el.textContent = count;
+                    requestAnimationFrame(update);
+                }
+            }
+            update();
+        });
+    });
+    // Gallery image click to enlarge
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.gallery-img').forEach(function(img) {
+            img.addEventListener('click', function() {
+                const overlay = document.createElement('div');
+                overlay.style.position = 'fixed';
+                overlay.style.top = 0;
+                overlay.style.left = 0;
+                overlay.style.width = '100vw';
+                overlay.style.height = '100vh';
+                overlay.style.background = 'rgba(0,0,0,0.85)';
+                overlay.style.display = 'flex';
+                overlay.style.alignItems = 'center';
+                overlay.style.justifyContent = 'center';
+                overlay.style.zIndex = 9999;
+                overlay.addEventListener('click', function() { document.body.removeChild(overlay); });
+                const bigImg = document.createElement('img');
+                bigImg.src = img.src;
+                bigImg.style.maxWidth = '90vw';
+                bigImg.style.maxHeight = '90vh';
+                bigImg.style.borderRadius = '12px';
+                bigImg.style.boxShadow = '0 8px 32px rgba(37,97,167,0.25)';
+                overlay.appendChild(bigImg);
+                document.body.appendChild(overlay);
+            });
+        });
+    });
+    </script>
+</body>
+</html> 

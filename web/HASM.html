@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hendrik Sorensen - HASM Portfolio">
+    <meta property="og:title" content="HASM | Custom Assembly Language">
+    <meta property="og:description" content="A professional, custom assembly language with compiler and toolchain built from scratch.">
+    <meta property="og:image" content="assets/HASMImage.png">
+    <meta property="og:type" content="website">
+    <title>HASM | Custom Assembly Language</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+        :root {
+            --primary: #eaf0f6;
+            --secondary: #c3d0e6;
+            --dark: #181c24;
+            --darker: #10131a;
+            --light: #e5e7eb;
+            --lighter: #f9fafb;
+            --accent: #2561a7;
+            --accent2: #2196f3;
+            --divider: #232a3b;
+            --header-height: 4.5rem;
+        }
+        body.light-mode {
+            --primary: #181c24;
+            --secondary: #2561a7;
+            --dark: #f9fafb;
+            --darker: #eaf0f6;
+            --light: #e5e7eb;
+            --lighter: #232a3b;
+            --accent: #2561a7;
+            --accent2: #2196f3;
+            --divider: #c3d0e6;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: "Poppins", sans-serif;
+            min-height: 100vh;
+            color: var(--primary);
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+            font-size: 1.13rem;
+            line-height: 1.8;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            transition: background 0.4s, color 0.3s;
+        }
+        header {
+            position: sticky;
+            top: 0; left: 0; width: 100%;
+            height: var(--header-height);
+            padding: 0 6vw;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000;
+            background: rgba(24, 28, 36, 0.98);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--divider);
+            box-shadow: 0 2px 8px rgba(24,28,36,0.10);
+            transition: all 0.3s ease;
+        }
+        body.light-mode header {
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(37,97,167,0.08);
+            border-bottom: 1px solid var(--divider);
+        }
+        .logo {
+            font-size: 2.1rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: var(--accent);
+            text-decoration: none;
+        }
+        nav { display: flex; gap: 2.2rem; }
+        nav a {
+            position: relative;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.08rem;
+            padding: 0.5rem 0;
+            letter-spacing: 0.5px;
+            transition: color 0.2s, border-bottom 0.2s;
+        }
+        nav a::after {
+            content: '';
+            position: absolute; bottom: 0; left: 0; width: 0; height: 2px;
+            background: var(--accent);
+            transition: width 0.2s;
+        }
+        nav a:hover::after { width: 100%; }
+        nav a:hover { color: var(--accent); }
+        .dark-toggle {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin-left: 1.5rem;
+            transition: color 0.2s;
+        }
+        .dark-toggle:hover { color: var(--accent); }
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+        .hero {
+            width: 100%;
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 7rem 1.5rem 3rem 1.5rem;
+            background: linear-gradient(120deg, #10131a 60%, #2561a7 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -10%; left: -10%; width: 120%; height: 120%;
+            background: radial-gradient(circle at 60% 40%, #2561a7 0%, transparent 70%),
+                        radial-gradient(circle at 20% 80%, #2196f3 0%, transparent 80%);
+            opacity: 0.18;
+            z-index: 0;
+            pointer-events: none;
+            animation: bgmove 30s linear infinite alternate;
+        }
+        @keyframes bgmove {
+            0% { background-position: 0 0, 0 0; }
+            100% { background-position: 100px 200px, -100px -100px; }
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .hero-title {
+            font-size: 3.2rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 1.1rem;
+            letter-spacing: 1.2px;
+            text-align: center;
+        }
+        .hero-tagline {
+            font-size: 1.35rem;
+            color: var(--primary);
+            opacity: 0.95;
+            margin-bottom: 2.2rem;
+            text-align: center;
+            font-weight: 400;
+        }
+        .hero-cta {
+            display: flex;
+            gap: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 0.95rem 2.5rem;
+            font-size: 1.18rem;
+            font-weight: 700;
+            color: #fff;
+            background: var(--accent);
+            border: none;
+            border-radius: 2rem;
+            box-shadow: 0 2px 12px 0 rgba(37,97,167,0.10);
+            text-decoration: none;
+            letter-spacing: 0.5px;
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s;
+        }
+        .cta-btn:hover, .cta-btn:focus {
+            background: #17407a;
+            color: #eaf0f6;
+            box-shadow: 0 4px 24px 0 #2561a733;
+            transform: translateY(-2px) scale(1.04);
+        }
+        body.light-mode .hero {
+            background: linear-gradient(120deg, #d0e6fa 40%, #90caf9 100%) !important;
+            box-shadow: 0 8px 32px 0 rgba(33, 150, 243, 0.10), 0 2px 0 0 #b3d8fd;
+            border-bottom: 2px solid #b3d8fd;
+        }
+        body.light-mode .hero::before {
+            background: radial-gradient(circle at 60% 40%, #2196f3 0%, transparent 70%),
+                        radial-gradient(circle at 20% 80%, #90caf9 0%, transparent 80%);
+            opacity: 0.18;
+        }
+        body.light-mode .hero-title,
+        body.light-mode .hero-tagline {
+            color: #181c24;
+        }
+        body.light-mode .cta-btn {
+            color: #fff;
+            background: var(--accent);
+        }
+        body.light-mode .cta-btn:hover, body.light-mode .cta-btn:focus {
+            background: #17407a;
+            color: #eaf0f6;
+        }
+        .section {
+            background: none;
+            border-radius: 0;
+            box-shadow: none;
+            margin: 3.5rem auto 2.5rem auto;
+            padding: 0 0 2.5rem 0;
+            max-width: 1100px;
+            border: none;
+            border-bottom: 2px solid var(--divider);
+            position: relative;
+            transition: background 0.3s, color 0.3s;
+        }
+        .section:last-of-type {
+            border-bottom: none;
+        }
+        .section h2 {
+            font-size: 2.1rem;
+            margin-bottom: 1.2rem;
+            color: var(--accent);
+            font-weight: 700;
+            text-shadow: none;
+            letter-spacing: 0.5px;
+        }
+        .section h3 {
+            font-size: 1.25rem;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 0.7rem;
+        }
+        .section ul, .section ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.07rem;
+        }
+        .section li {
+            margin-bottom: 0.5rem;
+        }
+        .about-section .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.13rem;
+        }
+        .about-highlight {
+            background: none;
+            border-left: 4px solid var(--accent);
+            padding: 0.7em 1.2em;
+            margin: 1.1em 0;
+            border-radius: 0.7em;
+            color: var(--primary);
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7em;
+        }
+        .features-section .feature-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            justify-content: center;
+        }
+        .feature-card {
+            background: none;
+            border: none;
+            border-radius: 0;
+            padding: 0.7rem 1.3rem 0.7rem 1.3rem;
+            min-width: 220px;
+            max-width: 320px;
+            flex: 1 1 250px;
+            box-shadow: none;
+            transition: color 0.2s, transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+        }
+        .feature-card:hover {
+            color: var(--accent);
+            transform: translateY(-4px) scale(1.03);
+        }
+        .feature-card i {
+            color: var(--accent);
+            margin-bottom: 0.7em;
+        }
+        .feature-card h3 {
+            color: var(--accent);
+            font-size: 1.13rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .feature-card p {
+            color: var(--lighter);
+            font-size: 1.01rem;
+        }
+        .deepdive-section {
+            max-width: 1100px;
+            margin: 0 auto 2.5rem auto;
+        }
+        .deepdive-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .deepdive-card {
+            background: none;
+            border: none;
+            border-radius: 0;
+            padding: 0.7rem 1.1rem 0.7rem 1.1rem;
+            box-shadow: none;
+            transition: color 0.2s, transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            min-height: 180px;
+        }
+        .deepdive-card:hover {
+            color: var(--accent);
+            transform: translateY(-2px) scale(1.01);
+        }
+        .deepdive-card i {
+            color: var(--accent);
+            margin-bottom: 0.6em;
+        }
+        .deepdive-card h3 {
+            color: var(--accent);
+            font-size: 1.11rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .deepdive-card ul {
+            margin-left: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--lighter);
+            font-size: 1.01rem;
+        }
+        .deepdive-code {
+            margin-top: 2.5rem;
+            background: none;
+            border: none;
+            border-radius: 0;
+            padding: 1.1rem 1.3rem;
+            box-shadow: none;
+        }
+        .deepdive-code h4 {
+            color: var(--accent);
+            font-size: 1.05rem;
+            margin-bottom: 0.7rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+        }
+        .deepdive-code pre {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-family: 'Fira Mono', 'Consolas', monospace;
+            font-size: 0.98rem;
+            margin: 0;
+            padding: 0;
+            overflow-x: auto;
+        }
+        .demo-section {
+            max-width: 1100px;
+            margin: 0 auto 2.5rem auto;
+        }
+        .demo-flex {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2.5rem;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        .demo-media {
+            flex: 1 1 350px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.2rem;
+        }
+        .demo-media img {
+            width: 100%;
+            max-width: 520px;
+            border-radius: 12px;
+            border: 1.5px solid var(--divider);
+            box-shadow: none;
+        }
+        .demo-stats {
+            flex: 0 1 220px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            align-items: center;
+            margin-top: 1.2rem;
+        }
+        .stat-card {
+            background: none;
+            border: none;
+            border-radius: 0;
+            padding: 0.7rem 1.5rem;
+            box-shadow: none;
+            text-align: center;
+            min-width: 160px;
+            transition: color 0.2s, transform 0.2s;
+        }
+        .stat-card:hover {
+            color: var(--accent);
+            transform: translateY(-2px) scale(1.01);
+        }
+        .stat-value {
+            font-size: 2.1rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.3em;
+            transition: color 0.2s;
+        }
+        .stat-label {
+            color: var(--lighter);
+            font-size: 1.01rem;
+        }
+        .build-section {
+            max-width: 900px;
+            margin: 0 auto 2.5rem auto;
+        }
+        .build-flex {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2.5rem;
+            align-items: flex-start;
+        }
+        .build-instructions {
+            flex: 1 1 350px;
+            background: none;
+            border: none;
+            border-radius: 0;
+            padding: 0;
+            box-shadow: none;
+            transition: none;
+        }
+        .build-instructions ol {
+            margin-left: 1.2em;
+            margin-bottom: 1.1em;
+        }
+        .build-instructions pre {
+            background: none;
+            border-radius: 0;
+            color: var(--primary);
+            font-family: 'Fira Mono', 'Consolas', monospace;
+            font-size: 0.98rem;
+            padding: 0.7em 1em;
+            margin-bottom: 1.1em;
+            box-shadow: none;
+        }
+        .build-links {
+            display: flex;
+            gap: 1.1em;
+            margin-top: 0.7em;
+        }
+        .footer {
+            background: none;
+            padding: 2rem 5%;
+            text-align: center;
+            border-top: 1px solid var(--divider);
+            margin-top: 2.5rem;
+        }
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.1em;
+        }
+        .footer-social {
+            display: flex;
+            gap: 1.5em;
+            margin-bottom: 0.5em;
+        }
+        .footer-social a {
+            color: var(--primary);
+            font-size: 1.5rem;
+            transition: color 0.2s, transform 0.2s;
+        }
+        .footer-social a:hover {
+            color: var(--accent);
+            transform: scale(1.18) rotate(-8deg);
+        }
+        .footer-copy {
+            color: var(--lighter);
+            font-size: 0.97rem;
+        }
+        @media (max-width: 1100px) {
+            .demo-flex, .build-flex {
+                flex-direction: column;
+                align-items: center;
+            }
+            .section {
+                padding: 2rem 1rem 2.5rem 1rem;
+            }
+        }
+        @media (max-width: 900px) {
+            .features-section .feature-list {
+                flex-direction: column;
+                align-items: center;
+            }
+            .feature-card {
+                max-width: 95vw;
+            }
+            .deepdive-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 2vw; }
+            .section, .about-section, .features-section, .deepdive-section, .demo-section, .build-section {
+                padding: 1.2rem 0.5rem 2.5rem 0.5rem;
+                border-radius: 0;
+            }
+            .footer {
+                padding: 1.2rem 2vw;
+            }
+        }
+    </style>
+    <script>
+    // Dark/Light mode toggle
+    function toggleDarkMode() {
+        document.body.classList.toggle('light-mode');
+        localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+    }
+    window.onload = function() {
+        if(localStorage.getItem('theme') === 'light') {
+            document.body.classList.add('light-mode');
+        }
+    }
+    </script>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">Hendrik<span style="color:var(--primary);font-weight:400;">Sorensen</span></a>
+        <nav aria-label="Main Navigation">
+            <a href="index.html">Home</a>
+            <a href="#overview">Overview</a>
+            <a href="#features">Features</a>
+            <a href="#deepdive">Technical</a>
+            <a href="#demo">Demo</a>
+            <a href="#build">Build</a>
+        </nav>
+        <button class="dark-toggle" onclick="toggleDarkMode()" aria-label="Toggle dark/light mode"><i class="fas fa-moon"></i></button>
+    </header>
+    <main>
+        <section class="hero" id="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">HASM</h1>
+                <div class="hero-tagline">Hendrik's Assembly Language<br>A Custom Assembly Language & Compiler</div>
+                <div class="hero-cta">
+                    <a href="#demo" class="cta-btn"><i class="fas fa-play" style="margin-right:0.7em;"></i>See Demo</a>
+                    <a href="HASMDocs.html" class="cta-btn" target="_blank"><i class="fas fa-book" style="margin-right:0.7em;"></i>View Documentation</a>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <section class="section about-section" id="overview">
+        <h2><i class="fas fa-microchip" style="margin-right:0.5em;"></i>Project Overview</h2>
+        <div class="about-content">
+            <p>
+                <b>HASM (Hendrik's Assembly Language)</b> is a custom assembly language designed for Linux systems, complete with its own compiler, assembler, and toolchain. Built from scratch in C, this project demonstrates deep understanding of low-level programming, compiler design, and system architecture. HASM provides a simplified yet powerful assembly language that compiles to native x86-64 machine code.
+            </p>
+            <div class="about-highlight">
+                <i class="fas fa-bolt"></i> <b>Complete toolchain:</b> Custom compiler, assembler, and linker that generates native ELF executables for Linux.
+            </div>
+            <div class="about-highlight">
+                <i class="fas fa-cogs"></i> <b>Low-level mastery:</b> Direct manipulation of machine code, instruction encoding, and binary file formats.
+            </div>
+        </div>
+    </section>
+    
+    <section class="section features-section" id="features">
+        <h2><i class="fas fa-star" style="margin-right:0.5em;"></i>Key Features</h2>
+        <div class="feature-list">
+            <div class="feature-card">
+                <i class="fas fa-code fa-2x"></i>
+                <h3>Custom Assembly Language</h3>
+                <p>Simplified syntax designed for readability while maintaining full control over hardware resources and memory management.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-cogs fa-2x"></i>
+                <h3>Complete Compiler</h3>
+                <p>Multi-pass compiler with lexical analysis, parsing, semantic analysis, and code generation phases.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-file-code fa-2x"></i>
+                <h3>ELF Binary Generation</h3>
+                <p>Generates standard ELF (Executable and Linkable Format) binaries compatible with Linux systems.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-microchip fa-2x"></i>
+                <h3>x86-64 Support</h3>
+                <p>Full support for x86-64 instruction set architecture with custom instruction encoding and optimization.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-tools fa-2x"></i>
+                <h3>Custom Instructions</h3>
+                <p>Extensible instruction set with support for custom instructions and macros for specialized operations.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-rocket fa-2x"></i>
+                <h3>Optimization Passes</h3>
+                <p>Multiple optimization passes including dead code elimination, constant folding, and register allocation.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section deepdive-section" id="deepdive">
+        <h2><i class="fas fa-microscope" style="margin-right:0.5em;"></i>Technical Deep Dive</h2>
+        <div class="deepdive-grid">
+            <div class="deepdive-card">
+                <i class="fas fa-code fa-2x"></i>
+                <h3>Language Design</h3>
+                <ul>
+                    <li>Simplified syntax inspired by x86 assembly but with improved readability.</li>
+                    <li>Support for labels, directives, and custom instruction definitions.</li>
+                    <li>Type-safe addressing modes and operand validation.</li>
+                    <li>Macro system for code reuse and abstraction.</li>
+                </ul>
+            </div>
+            <div class="deepdive-card">
+                <i class="fas fa-sitemap fa-2x"></i>
+                <h3>Compiler Architecture</h3>
+                <ul>
+                    <li><b>Lexical Analysis:</b> Tokenization and symbol table management.</li>
+                    <li><b>Parsing:</b> Recursive descent parser with error recovery.</li>
+                    <li><b>Semantic Analysis:</b> Type checking and symbol resolution.</li>
+                    <li><b>Code Generation:</b> Instruction selection and binary output.</li>
+                </ul>
+            </div>
+            <div class="deepdive-card">
+                <i class="fas fa-memory fa-2x"></i>
+                <h3>ELF Format Handling</h3>
+                <ul>
+                    <li>Direct manipulation of ELF file headers and section tables.</li>
+                    <li>Proper symbol table generation and relocation handling.</li>
+                    <li>Support for different ELF sections (text, data, bss, etc.).</li>
+                    <li>Debug information generation for development tools.</li>
+                </ul>
+            </div>
+            <div class="deepdive-card">
+                <i class="fas fa-microchip fa-2x"></i>
+                <h3>Instruction Encoding</h3>
+                <ul>
+                    <li>Manual x86-64 instruction encoding and decoding.</li>
+                    <li>Support for various addressing modes and operand types.</li>
+                    <li>Optimization of instruction sequences for performance.</li>
+                    <li>Custom instruction extension framework.</li>
+                </ul>
+            </div>
+            <div class="deepdive-card">
+                <i class="fas fa-cogs fa-2x"></i>
+                <h3>Optimization Engine</h3>
+                <ul>
+                    <li>Dead code elimination and unreachable code removal.</li>
+                    <li>Constant folding and expression simplification.</li>
+                    <li>Register allocation and spill optimization.</li>
+                    <li>Peephole optimization for instruction sequences.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="deepdive-code">
+            <h4><i class="fas fa-code"></i> Example: HASM Assembly Code</h4>
+            <pre><code>; Simple HASM program example
+section .data
+    message db "Hello, World!", 0
+    len equ $ - message
+
+section .text
+    global _start
+
+_start:
+    mov rax, 1          ; sys_write
+    mov rdi, 1          ; stdout
+    mov rsi, message    ; message address
+    mov rdx, len        ; message length
+    syscall
+    
+    mov rax, 60         ; sys_exit
+    mov rdi, 0          ; exit code
+    syscall
+</code></pre>
+        </div>
+    </section>
+    
+    <section class="section" id="significance">
+        <h2>Project Significance & Learning Outcomes</h2>
+        <div class="about-content">
+            <h3>What I Learned</h3>
+            <ul>
+                <li><b>Compiler Design:</b> Deep understanding of lexical analysis, parsing, semantic analysis, and code generation phases.</li>
+                <li><b>Low-Level Programming:</b> Mastery of x86-64 architecture, instruction encoding, and binary file formats.</li>
+                <li><b>System Programming:</b> Direct manipulation of ELF files, memory layout, and system call interfaces.</li>
+                <li><b>Language Design:</b> Principles of creating readable, efficient, and extensible programming languages.</li>
+                <li><b>Optimization Techniques:</b> Implementation of various compiler optimizations for performance improvement.</li>
+                <li><b>Toolchain Development:</b> Building complete development tools from assembler to linker.</li>
+            </ul>
+            
+            <h3>Technical Challenges Overcome</h3>
+            <ul>
+                <li><b>ELF Format Complexity:</b> Understanding and implementing the complex ELF binary format specification.</li>
+                <li><b>Instruction Encoding:</b> Manual encoding of x86-64 instructions with proper addressing modes.</li>
+                <li><b>Error Handling:</b> Robust error reporting and recovery throughout the compilation pipeline.</li>
+                <li><b>Cross-Platform Compatibility:</b> Ensuring generated binaries work correctly on Linux systems.</li>
+                <li><b>Performance Optimization:</b> Balancing code generation speed with output optimization.</li>
+            </ul>
+            
+            <h3>Real-World Applications</h3>
+            <ul>
+                <li><b>Educational Tool:</b> Demonstrates compiler theory and low-level programming concepts.</li>
+                <li><b>Embedded Systems:</b> Potential for custom instruction sets in specialized hardware.</li>
+                <li><b>System Programming:</b> Foundation for understanding how higher-level languages compile to machine code.</li>
+                <li><b>Research Platform:</b> Base for experimenting with new language features and optimizations.</li>
+            </ul>
+        </div>
+    </section>
+    
+    <section class="section demo-section" id="demo">
+        <h2><i class="fas fa-play-circle" style="margin-right:0.5em;"></i>Demo & Showcase</h2>
+        <div class="demo-flex">
+            <div class="demo-media">
+                <img src="assets/HASMImage.png" alt="HASM Compiler Interface" style="width:100%;max-width:520px;border-radius:12px;border:1.5px solid var(--divider);box-shadow:none;">
+            </div>
+            <div class="demo-stats">
+                <div class="stat-card">
+                    <div class="stat-value" data-target="5000">0</div>
+                    <div class="stat-label">Lines of C Code</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" data-target="50">0</div>
+                    <div class="stat-label">Supported Instructions</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" data-target="4">0</div>
+                    <div class="stat-label">Compiler Passes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" data-target="100">0</div>
+                    <div class="stat-label">Test Cases</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section build-section" id="build">
+        <h2><i class="fas fa-tools" style="margin-right:0.5em;"></i>How to Build & Run</h2>
+        <div class="build-flex">
+            <div class="build-instructions">
+                <ol>
+                    <li>Ensure you have a C compiler (GCC) and Make installed on your Linux system.</li>
+                    <li>Clone the repository from the HASM folder.</li>
+                    <li>Open a terminal in the HASM directory.</li>
+                    <li>Run the following commands:</li>
+                </ol>
+                <pre><code>make
+./hasm input.asm -o output
+chmod +x output
+./output
+</code></pre>
+                <div class="build-links">
+                    <a href="HASMDocs.html" class="cta-btn" target="_blank"><i class="fas fa-book" style="margin-right:0.7em;"></i>Documentation</a>
+                    <a href="#" class="cta-btn" target="_blank"><i class="fab fa-github" style="margin-right:0.7em;"></i>Source Code</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-social">
+                <a href="mailto:hnsorens@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                <a href="https://github.com/hnsorens" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://linkedin.com/in/hendrik-sorensen" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            </div>
+            <div class="footer-copy">
+                &copy; 2025 Hendrik Sorensen. All rights reserved.
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+    // Animated counters for stats
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.stat-value').forEach(function(el) {
+            const target = +el.getAttribute('data-target');
+            let count = 0;
+            const step = Math.max(1, Math.floor(target / 60));
+            function update() {
+                count += step;
+                if (count >= target) {
+                    el.textContent = target;
+                } else {
+                    el.textContent = count;
+                    requestAnimationFrame(update);
+                }
+            }
+            update();
+        });
+    });
+    </script>
+</body>
+</html> 

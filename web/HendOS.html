@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hendrik Sorensen - HendOS Portfolio">
+    <meta property="og:title" content="HendOS | Custom Unix-like Operating System">
+    <meta property="og:description" content="A professional, custom Unix-like x86-64 operating system built from scratch.">
+    <meta property="og:image" content="assets/os-cover.png">
+    <meta property="og:type" content="website">
+    <title>HendOS | Custom Unix-like Operating System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+        :root {
+            --primary: #eaf0f6;
+            --secondary: #c3d0e6;
+            --dark: #181c24;
+            --darker: #10131a;
+            --light: #e5e7eb;
+            --lighter: #f9fafb;
+            --accent: #2561a7;
+            --accent2: #2196f3;
+            --divider: #232a3b;
+            --header-height: 4.5rem;
+        }
+        body.light-mode {
+            --primary: #181c24;
+            --secondary: #2561a7;
+            --dark: #f9fafb;
+            --darker: #eaf0f6;
+            --light: #e5e7eb;
+            --lighter: #232a3b;
+            --accent: #2561a7;
+            --accent2: #2196f3;
+            --divider: #c3d0e6;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: "Poppins", sans-serif;
+            min-height: 100vh;
+            color: var(--primary);
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+            font-size: 1.13rem;
+            line-height: 1.8;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            transition: background 0.4s, color 0.3s;
+        }
+        header {
+            position: sticky;
+            top: 0; left: 0; width: 100%;
+            height: var(--header-height);
+            padding: 0 6vw;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000;
+            background: rgba(24, 28, 36, 0.98);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--divider);
+            box-shadow: 0 2px 8px rgba(24,28,36,0.10);
+            transition: all 0.3s ease;
+        }
+        body.light-mode header {
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(37,97,167,0.08);
+            border-bottom: 1px solid var(--divider);
+        }
+        .logo {
+            font-size: 2.1rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: var(--accent);
+            text-decoration: none;
+        }
+        nav { display: flex; gap: 2.2rem; }
+        nav a {
+            position: relative;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.08rem;
+            padding: 0.5rem 0;
+            letter-spacing: 0.5px;
+            transition: color 0.2s, border-bottom 0.2s;
+        }
+        nav a::after {
+            content: '';
+            position: absolute; bottom: 0; left: 0; width: 0; height: 2px;
+            background: var(--accent);
+            transition: width 0.2s;
+        }
+        nav a:hover::after { width: 100%; }
+        nav a:hover { color: var(--accent); }
+        .dark-toggle {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin-left: 1.5rem;
+            transition: color 0.2s;
+        }
+        .dark-toggle:hover { color: var(--accent); }
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+        .hero {
+            width: 100%;
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 7rem 1.5rem 3rem 1.5rem;
+            background: linear-gradient(120deg, #10131a 60%, #2561a7 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -10%; left: -10%; width: 120%; height: 120%;
+            background: radial-gradient(circle at 60% 40%, #2561a7 0%, transparent 70%),
+                        radial-gradient(circle at 20% 80%, #2196f3 0%, transparent 80%);
+            opacity: 0.18;
+            z-index: 0;
+            pointer-events: none;
+            animation: bgmove 30s linear infinite alternate;
+        }
+        @keyframes bgmove {
+            0% { background-position: 0 0, 0 0; }
+            100% { background-position: 100px 200px, -100px -100px; }
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .hero-title {
+            font-size: 3.2rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 1.1rem;
+            letter-spacing: 1.2px;
+            text-align: center;
+        }
+        .hero-tagline {
+            font-size: 1.35rem;
+            color: var(--primary);
+            opacity: 0.95;
+            margin-bottom: 2.2rem;
+            text-align: center;
+            font-weight: 400;
+        }
+        .hero-cta {
+            display: flex;
+            gap: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 0.95rem 2.5rem;
+            font-size: 1.18rem;
+            font-weight: 700;
+            color: #fff;
+            background: var(--accent);
+            border: none;
+            border-radius: 2rem;
+            box-shadow: 0 2px 12px 0 rgba(37,97,167,0.10);
+            text-decoration: none;
+            letter-spacing: 0.5px;
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s;
+        }
+        .cta-btn:hover, .cta-btn:focus {
+            background: #17407a;
+            color: #eaf0f6;
+            box-shadow: 0 4px 24px 0 #2561a733;
+            transform: translateY(-2px) scale(1.04);
+        }
+        body.light-mode .hero {
+            background: linear-gradient(120deg, #d0e6fa 40%, #90caf9 100%) !important;
+            box-shadow: 0 8px 32px 0 rgba(33, 150, 243, 0.10), 0 2px 0 0 #b3d8fd;
+            border-bottom: 2px solid #b3d8fd;
+        }
+        body.light-mode .hero::before {
+            background: radial-gradient(circle at 60% 40%, #2196f3 0%, transparent 70%),
+                        radial-gradient(circle at 20% 80%, #90caf9 0%, transparent 80%);
+            opacity: 0.18;
+        }
+        body.light-mode .hero-title,
+        body.light-mode .hero-tagline {
+            color: #181c24;
+        }
+        body.light-mode .cta-btn {
+            color: #fff;
+            background: var(--accent);
+        }
+        body.light-mode .cta-btn:hover, body.light-mode .cta-btn:focus {
+            background: #17407a;
+            color: #eaf0f6;
+        }
+        /* --- OPEN, FLAT DESIGN BELOW THIS LINE --- */
+        .section {
+            background: none;
+            border-radius: 0;
+            box-shadow: none;
+            margin: 3.5rem auto 2.5rem auto;
+            padding: 0 0 2.5rem 0;
+            max-width: 1100px;
+            border: none;
+            border-bottom: 2px solid var(--divider);
+            position: relative;
+            transition: background 0.3s, color 0.3s;
+        }
+        .section:last-of-type {
+            border-bottom: none;
+        }
+        .section h2 {
+            font-size: 2.1rem;
+            margin-bottom: 1.2rem;
+            color: var(--accent);
+            font-weight: 700;
+            text-shadow: none;
+            letter-spacing: 0.5px;
+        }
+        .section h3 {
+            font-size: 1.25rem;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 0.7rem;
+        }
+        .section ul, .section ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.07rem;
+        }
+        .section li {
+            margin-bottom: 0.5rem;
+        }
+        .about-section .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.13rem;
+        }
+        .about-highlight {
+            background: none;
+            border-left: 4px solid var(--accent);
+            padding: 0.7em 1.2em;
+            margin: 1.1em 0;
+            border-radius: 0.7em;
+            color: var(--primary);
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7em;
+        }
+        .features-section .feature-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            justify-content: center;
+        }
+        .feature-card {
+            background: none;
+            border: none;
+            border-radius: 0;
+            padding: 0.7rem 1.3rem 0.7rem 1.3rem;
+            min-width: 220px;
+            max-width: 320px;
+            flex: 1 1 250px;
+            box-shadow: none;
+            transition: color 0.2s, transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+        }
+        .feature-card:hover {
+            color: var(--accent);
+            transform: translateY(-4px) scale(1.03);
+        }
+        .feature-card i {
+            color: var(--accent);
+            margin-bottom: 0.7em;
+        }
+        .feature-card h3 {
+            color: var(--accent);
+            font-size: 1.13rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .feature-card p {
+            color: var(--lighter);
+            font-size: 1.01rem;
+        }
+        .subsystems-section {
+            max-width: 1100px;
+            margin: 0 auto 2.5rem auto;
+        }
+        .subsystem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .subsystem-card {
+            background: none;
+            border: none;
+            border-radius: 0;
+            padding: 0.7rem 1.1rem 0.7rem 1.1rem;
+            box-shadow: none;
+            transition: color 0.2s, transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            min-height: 180px;
+        }
+        .subsystem-card:hover {
+            color: var(--accent);
+            transform: translateY(-2px) scale(1.01);
+        }
+        .subsystem-card i {
+            color: var(--accent);
+            margin-bottom: 0.6em;
+        }
+        .subsystem-card h3 {
+            color: var(--accent);
+            font-size: 1.11rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .subsystem-card ul {
+            margin-left: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--lighter);
+            font-size: 1.01rem;
+        }
+        .userland-section {
+            max-width: 1100px;
+            margin: 0 auto 2.5rem auto;
+        }
+        .userland-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            justify-content: center;
+        }
+        .userland-item {
+            background: none;
+            border: 1.5px solid var(--divider);
+            border-radius: 50px;
+            padding: 0.5rem 1.2rem;
+            font-size: 1rem;
+            color: var(--primary);
+            box-shadow: none;
+            transition: color 0.2s, border-color 0.2s, transform 0.2s;
+        }
+        .userland-item:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+            transform: translateY(-2px) scale(1.05);
+        }
+        .build-section {
+            max-width: 900px;
+            margin: 0 auto 2.5rem auto;
+        }
+        .build-flex {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2.5rem;
+            align-items: flex-start;
+        }
+        .build-instructions {
+            flex: 1 1 350px;
+            background: none;
+            border: none;
+            border-radius: 0;
+            padding: 0;
+            box-shadow: none;
+            transition: none;
+        }
+        .build-instructions ol {
+            margin-left: 1.2em;
+            margin-bottom: 1.1em;
+        }
+        .build-instructions pre {
+            background: none;
+            border-radius: 0;
+            color: var(--primary);
+            font-family: 'Fira Mono', 'Consolas', monospace;
+            font-size: 0.98rem;
+            padding: 0.7em 1em;
+            margin-bottom: 1.1em;
+            box-shadow: none;
+        }
+        .build-links {
+            display: flex;
+            gap: 1.1em;
+            margin-top: 0.7em;
+        }
+        .footer {
+            background: none;
+            padding: 2rem 5%;
+            text-align: center;
+            border-top: 1px solid var(--divider);
+            margin-top: 2.5rem;
+        }
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.1em;
+        }
+        .footer-social {
+            display: flex;
+            gap: 1.5em;
+            margin-bottom: 0.5em;
+        }
+        .footer-social a {
+            color: var(--primary);
+            font-size: 1.5rem;
+            transition: color 0.2s, transform 0.2s;
+        }
+        .footer-social a:hover {
+            color: var(--accent);
+            transform: scale(1.18) rotate(-8deg);
+        }
+        .footer-copy {
+            color: var(--lighter);
+            font-size: 0.97rem;
+        }
+        /* Responsive adjustments */
+        @media (max-width: 1100px) {
+            .build-flex {
+                flex-direction: column;
+                align-items: center;
+            }
+            .section {
+                padding: 2rem 1rem 2.5rem 1rem;
+            }
+        }
+        @media (max-width: 900px) {
+            .features-section .feature-list {
+                flex-direction: column;
+                align-items: center;
+            }
+            .feature-card {
+                max-width: 95vw;
+            }
+            .subsystem-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 2vw; }
+            .hero { padding-top: 5rem; }
+            .hero-title { font-size: 2.1rem; }
+            .section, .about-section, .features-section, .subsystems-section, .userland-section, .build-section {
+                padding: 1.2rem 0.5rem 2.5rem 0.5rem;
+                border-radius: 0;
+            }
+            .footer {
+                padding: 1.2rem 2vw;
+            }
+        }
+    </style>
+    <script>
+    // Dark/Light mode toggle
+    function toggleDarkMode() {
+        document.body.classList.toggle('light-mode');
+        localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+    }
+    window.onload = function() {
+        if(localStorage.getItem('theme') === 'light') {
+            document.body.classList.add('light-mode');
+        }
+    }
+    </script>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">Hendrik<span style="color:var(--primary);font-weight:400;">Sorensen</span></a>
+        <nav aria-label="Main Navigation">
+            <a href="index.html">Home</a>
+            <a href="#overview">Overview</a>
+            <a href="#features">Features</a>
+            <a href="#subsystems">Subsystems</a>
+            <a href="#userland">Userland</a>
+            <a href="#build">Build</a>
+        </nav>
+        <button class="dark-toggle" onclick="toggleDarkMode()" aria-label="Toggle dark/light mode"><i class="fas fa-moon"></i></button>
+    </header>
+    <main>
+        <section class="hero" id="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">HendOS</h1>
+                <div class="hero-tagline">A Custom Unix-like x86-64 Operating System<br>by Hendrik Sorensen</div>
+                <div class="hero-cta">
+                    <a href="#demo" class="cta-btn"><i class="fas fa-play" style="margin-right:0.7em;"></i>See Demo</a>
+                    <a href="OS.html" class="cta-btn"><i class="fas fa-book" style="margin-right:0.7em;"></i>Read Documentation</a>
+                </div>
+            </div>
+        </section>
+    </main>
+    <section class="section about-section" id="overview">
+        <h2><i class="fas fa-microchip" style="margin-right:0.5em;"></i>Project Overview</h2>
+        <div class="about-content">
+            <p>
+                <b>HendOS</b> is a custom, educational Unix-like operating system for x86-64, built from scratch in C and assembly. It features a modern kernel, UEFI boot, multitasking, virtual memory, a custom shell, and a userland with core utilities. The project demonstrates low-level systems programming, OS architecture, and hardware interfacing.
+            </p>
+            <div class="about-highlight">
+                <i class="fas fa-cogs"></i> <b>Complete OS stack:</b> From UEFI bootloader to userland applications, every component is custom-built.
+            </div>
+            <div class="about-highlight">
+                <i class="fas fa-shield-alt"></i> <b>Modern architecture:</b> x86-64, virtual memory, multitasking, and POSIX-compatible system calls.
+            </div>
+        </div>
+    </section>
+    <section class="section features-section" id="features">
+        <h2><i class="fas fa-star" style="margin-right:0.5em;"></i>Implemented Features</h2>
+        <div class="feature-list">
+            <div class="feature-card">
+                <i class="fas fa-boot fa-2x"></i>
+                <h3>Boot & Kernel Init</h3>
+                <p>UEFI bootloader/stub, assembly startup, page-aligned kernel memory layout</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-memory fa-2x"></i>
+                <h3>Memory Management</h3>
+                <p>Physical memory map parsing, PML4 page tables, virtual memory, page fault handling</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-bolt fa-2x"></i>
+                <h3>Interrupt Handling</h3>
+                <p>IDT, ISRs for CPU faults, APIC/PIC, timer setup, context switch code</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-tasks fa-2x"></i>
+                <h3>Process Management</h3>
+                <p>PCB design, fork(), ELF loader, user/kernel mode transitions, scheduler</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-users fa-2x"></i>
+                <h3>Process Groups & Signals</h3>
+                <p>PGID/SID, setsid(), signal definitions, signal delivery and masking</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-terminal fa-2x"></i>
+                <h3>Terminals & Shell</h3>
+                <p>Keyboard driver, line discipline, TTY master/slave, job control, userland shell</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-folder fa-2x"></i>
+                <h3>File & I/O System</h3>
+                <p>File descriptor table per process, VFS abstraction, ext2 driver</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-code fa-2x"></i>
+                <h3>Syscalls & libc</h3>
+                <p>Syscall mechanism, syscall table/dispatcher, minimal libc implementation</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-rocket fa-2x"></i>
+                <h3>Init System & Services</h3>
+                <p>PID 1 init process, shell from init, system services</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-tools fa-2x"></i>
+                <h3>Tooling</h3>
+                <p>Cross-compiler toolchain, QEMU run script, disk image builder</p>
+            </div>
+        </div>
+    </section>
+    <section class="section subsystems-section" id="subsystems">
+        <h2><i class="fas fa-microscope" style="margin-right:0.5em;"></i>Subsystems: In-Depth</h2>
+        <div class="subsystem-grid">
+            <div class="subsystem-card">
+                <i class="fas fa-boot fa-2x"></i>
+                <h3>Boot & Kernel Initialization</h3>
+                <ul>
+                    <li>UEFI bootloader or boot stub loads the kernel as an EFI application.</li>
+                    <li>Assembly startup code sets up the stack and jumps to <code>kernel_main()</code>.</li>
+                    <li>Page-aligned kernel memory layout ensures efficient paging and memory protection.</li>
+                    <li>Framebuffer graphics and font rendering initialized before exiting boot services.</li>
+                </ul>
+            </div>
+            <div class="subsystem-card">
+                <i class="fas fa-memory fa-2x"></i>
+                <h3>Memory Management</h3>
+                <ul>
+                    <li>Physical memory map parsed from UEFI/BIOS.</li>
+                    <li>Physical memory allocator (bitmap/buddy system).</li>
+                    <li>PML4 page table setup for x86_64, supporting 4KB and 2MB pages.</li>
+                    <li>Virtual memory mapping for kernel and user processes.</li>
+                    <li>Page fault handler for demand paging and copy-on-write.</li>
+                    <li>Kernel heap allocator (<code>kmalloc</code>, <code>kfree</code>).</li>
+                </ul>
+            </div>
+            <div class="subsystem-card">
+                <i class="fas fa-bolt fa-2x"></i>
+                <h3>Interrupt Handling</h3>
+                <ul>
+                    <li>Full IDT (Interrupt Descriptor Table) setup.</li>
+                    <li>ISRs for all CPU faults and hardware interrupts.</li>
+                    <li>APIC or PIC initialization for interrupt routing.</li>
+                    <li>Timer (PIT/HPET) setup and timer interrupts.</li>
+                    <li>Context switch code in timer ISR for preemptive multitasking.</li>
+                </ul>
+            </div>
+            <div class="subsystem-card">
+                <i class="fas fa-tasks fa-2x"></i>
+                <h3>Process Management</h3>
+                <ul>
+                    <li>Process Control Block (PCB) design for each process.</li>
+                    <li><code>fork()</code> system call for process creation (copy-on-write semantics).</li>
+                    <li>ELF loader for user programs.</li>
+                    <li>User/kernel mode transitions for syscall and interrupt safety.</li>
+                    <li>Round-robin scheduler (with future support for priorities).</li>
+                    <li><code>execve()</code>, <code>exit()</code>, <code>waitpid()</code> syscalls.</li>
+                    <li>Zombie process reaping logic.</li>
+                </ul>
+            </div>
+            <div class="subsystem-card">
+                <i class="fas fa-users fa-2x"></i>
+                <h3>Process Groups & Signals</h3>
+                <ul>
+                    <li>Process Group ID (PGID) and Session ID (SID) support.</li>
+                    <li><code>setsid()</code>, <code>setpgid()</code>, <code>getpgid()</code> syscalls.</li>
+                    <li>UNIX-style signal definitions (SIGKILL, SIGINT, etc.).</li>
+                    <li>Signal delivery engine and per-process signal masking.</li>
+                </ul>
+            </div>
+            <div class="subsystem-card">
+                <i class="fas fa-terminal fa-2x"></i>
+                <h3>Terminals & Shell</h3>
+                <ul>
+                    <li>Keyboard driver with scancode translation and event queue.</li>
+                    <li>Line discipline (echo, backspace, canonical mode).</li>
+                    <li>TTY master/slave (PTY) implementation for terminal multiplexing.</li>
+                    <li><code>tcgetpgrp()</code>, <code>tcsetpgrp()</code> for controlling terminal.</li>
+                    <li>Foreground/background job control.</li>
+                    <li>Custom userland shell with variables, aliases, and command parsing.</li>
+                </ul>
+            </div>
+            <div class="subsystem-card">
+                <i class="fas fa-folder fa-2x"></i>
+                <h3>File & I/O System</h3>
+                <ul>
+                    <li>File descriptor table per process.</li>
+                    <li>Virtual Filesystem Switch (VFS) abstraction.</li>
+                    <li>ext2 filesystem driver for persistent storage.</li>
+                </ul>
+            </div>
+            <div class="subsystem-card">
+                <i class="fas fa-code fa-2x"></i>
+                <h3>Syscalls & libc</h3>
+                <ul>
+                    <li>Custom syscall mechanism (SYSCALL instruction or <code>int 0x80</code>).</li>
+                    <li>Syscall table and dispatcher for kernel entry points.</li>
+                    <li>Minimal libc implementation: <code>malloc</code>, <code>free</code>, <code>printf</code>, <code>str*</code>, <code>open</code>, <code>close</code>, <code>read</code>, <code>write</code>, <code>fork</code>, <code>exec</code>, <code>wait</code>, <code>exit</code>.</li>
+                </ul>
+            </div>
+            <div class="subsystem-card">
+                <i class="fas fa-rocket fa-2x"></i>
+                <h3>Init System & Services</h3>
+                <ul>
+                    <li>PID 1 <code>init</code> process launches at boot.</li>
+                    <li>Shell is started from <code>init</code> for user interaction.</li>
+                </ul>
+            </div>
+            <div class="subsystem-card">
+                <i class="fas fa-tools fa-2x"></i>
+                <h3>Tooling</h3>
+                <ul>
+                    <li>Cross-compiler toolchain for building the OS and userland.</li>
+                    <li>QEMU run script for emulation and testing.</li>
+                    <li>Disk image builder for creating bootable images.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <section class="section userland-section" id="userland">
+        <h2><i class="fas fa-desktop" style="margin-right:0.5em;"></i>Userland Programs</h2>
+        <div class="userland-list">
+            <span class="userland-item">shell</span>
+            <span class="userland-item">ls</span>
+            <span class="userland-item">cp</span>
+            <span class="userland-item">mv</span>
+            <span class="userland-item">rm</span>
+            <span class="userland-item">mkdir</span>
+            <span class="userland-item">rmdir</span>
+            <span class="userland-item">stat</span>
+            <span class="userland-item">touch</span>
+            <span class="userland-item">find</span>
+            <span class="userland-item">file</span>
+            <span class="userland-item">readlink</span>
+            <span class="userland-item">getty</span>
+            <span class="userland-item">systemd</span>
+            <span class="userland-item">args</span>
+            <span class="userland-item">gui</span>
+            <span class="userland-item">helloworld</span>
+            <span class="userland-item">segfault</span>
+        </div>
+        <p style="margin-top:1.5rem; color:var(--lighter); opacity:0.8; text-align:center;">All userland programs are written in C and run in protected user mode, demonstrating process isolation and system call usage.</p>
+    </section>
+    <section class="section build-section" id="build">
+        <h2><i class="fas fa-tools" style="margin-right:0.5em;"></i>How to Build & Run</h2>
+        <div class="build-flex">
+            <div class="build-instructions">
+                <ol>
+                    <li>Ensure you have a cross-compiler toolchain and QEMU installed.</li>
+                    <li>Clone the repository from your source control.</li>
+                    <li>Open a terminal in the <code>HendOS</code> directory.</li>
+                    <li>Run the following commands:</li>
+                </ol>
+                <pre><code>cd HendOS
+make
+make run
+</code></pre>
+                <div class="build-links">
+                    <a href="OS.html" class="cta-btn"><i class="fas fa-book" style="margin-right:0.7em;"></i>Read Documentation</a>
+                    <a href="assets/resume-example.pdf" class="cta-btn" target="_blank"><i class="fas fa-file-pdf" style="margin-right:0.7em;"></i>Download Docs</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-social">
+                <a href="mailto:hnsorens@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                <a href="https://github.com/hnsorens" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://linkedin.com/in/hendrik-sorensen" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            </div>
+            <div class="footer-copy">
+                &copy; 2025 Hendrik Sorensen. All rights reserved.
+            </div>
+        </div>
+    </footer>
+</body>
+</html> 
