@@ -486,7 +486,7 @@
                 <div class="hero-tagline">A Real-Time Raytraced Voxel World Engine<br>by Hendrik Sorensen</div>
                 <div class="hero-cta">
                     <a href="#demo" class="cta-btn"><i class="fas fa-play" style="margin-right:0.7em;"></i>See Demo</a>
-                    <a href="https://github.com/hnsorens/VulkanVoxelEngine" class="cta-btn" target="_blank"><i class="fab fa-github" style="margin-right:0.7em;"></i>View on GitHub</a>
+                    <a href="https://github.com/hnsorens/VoxelEngine" class="cta-btn" target="_blank"><i class="fab fa-github" style="margin-right:0.7em;"></i>View on GitHub</a>
                 </div>
             </div>
         </section>
@@ -626,19 +626,19 @@ uint8_t lod = voxel_base(voxel);
         <h2><i class="fas fa-play-circle" style="margin-right:0.5em;"></i>Demo & Showcase</h2>
         <div class="demo-flex">
             <div class="demo-media">
-                <video controls poster="assets/project-1.png" style="width:100%;max-width:520px;border-radius:12px;border:1.5px solid var(--divider);box-shadow:none;">
+                <video controls poster="assets/VoxelEngine.png" style="width:100%;max-width:520px;border-radius:12px;border:1.5px solid var(--divider);box-shadow:none;">
                     <source src="assets/voxel-demo.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
                 <div class="demo-gallery">
-                    <img src="assets/step1-rays.png" alt="Raytracing Pass Visualization" class="gallery-img">
-                    <img src="assets/step2-nofog.png" alt="No Fog Visualization" class="gallery-img">
-                    <img src="assets/step2-color.png" alt="Full Color Visualization" class="gallery-img">
+                    <img src="assets/VoxelEngineRaytrace.png" alt="Raytracing Pass Visualization" class="gallery-img">
+                    <img src="assets/VoxelEngineNoFog.png" alt="No Fog Visualization" class="gallery-img">
+                    <img src="assets/VoxelEngineColor.png" alt="Full Color Visualization" class="gallery-img">
                 </div>
             </div>
             <div class="demo-stats">
                 <div class="stat-card">
-                    <div class="stat-value" data-target="3685">0</div>
+                    <div class="stat-value" data-target="4000">0</div>
                     <div class="stat-label">Lines of C++ Code</div>
                 </div>
                 <div class="stat-card">
@@ -662,15 +662,13 @@ uint8_t lod = voxel_base(voxel);
             <div class="build-instructions">
                 <ol>
                     <li>Ensure you have a Vulkan-capable GPU and recent drivers.</li>
-                    <li>Clone the repository from <a href="https://github.com/hnsorens/VulkanVoxelEngine" target="_blank">GitHub</a>.</li>
+                    <li>Clone the repository from <a href="https://github.com/hnsorens/VoxelEngine" target="_blank">GitHub</a>.</li>
                     <li>Open a terminal in the <code>VoxelEngine</code> directory.</li>
                     <li>Run the following commands:</li>
                 </ol>
-                <pre><code>./run.sh
-./voxels
-</code></pre>
+                <pre><code>sudo make run</code></pre>
                 <div class="build-links">
-                    <a href="https://github.com/hnsorens/VulkanVoxelEngine" class="cta-btn" target="_blank"><i class="fab fa-github" style="margin-right:0.7em;"></i>GitHub Repo</a>
+                    <a href="https://github.com/hnsorens/VoxelEngine" class="cta-btn" target="_blank"><i class="fab fa-github" style="margin-right:0.7em;"></i>GitHub Repo</a>
                     <a href="assets/resume-example.pdf" class="cta-btn" target="_blank"><i class="fas fa-file-pdf" style="margin-right:0.7em;"></i>Download Docs</a>
                 </div>
             </div>
@@ -690,12 +688,8 @@ uint8_t lod = voxel_base(voxel);
             </ul>
             <div class="visuals-row">
                 <div class="visual-block">
-                    <img src="assets/step1-rays.png" alt="Raytracing Pass Visualization" style="width:100%;max-width:350px;border-radius:10px;border:1.5px solid var(--divider);box-shadow:none;">
-                    <div class="caption">Rays traversing the voxel world (placeholder image)</div>
-                </div>
-                <div class="visual-block">
-                    <img src="assets/step1-dots.png" alt="Lighting Dots Visualization" style="width:100%;max-width:350px;border-radius:10px;border:1.5px solid var(--divider);box-shadow:none;">
-                    <div class="caption">Lighting contributions (dots) being accumulated per voxel (placeholder)</div>
+                    <img src="assets/VoxelEngineRaytrace.png" alt="Lighting Dots Visualization" style="width:100%;max-width:350px;border-radius:10px;border:1.5px solid var(--divider);box-shadow:none;">
+                    <div class="caption">Lighting contributions (dots) being accumulated per voxel</div>
                 </div>
             </div>
         </div>
@@ -707,26 +701,13 @@ uint8_t lod = voxel_base(voxel);
             </ul>
             <div class="visuals-row">
                 <div class="visual-block">
-                    <img src="assets/step2-nofog.png" alt="No Fog Visualization" style="width:100%;max-width:350px;border-radius:10px;border:1.5px solid var(--divider);box-shadow:none;">
-                    <div class="caption">Voxel colors rendered without fog (placeholder)</div>
+                    <img src="assets/VoxelEngineNoFog.png" alt="No Fog Visualization" style="width:100%;max-width:350px;border-radius:10px;border:1.5px solid var(--divider);box-shadow:none;">
+                    <div class="caption">Voxel colors rendered without fog</div>
                 </div>
                 <div class="visual-block">
-                    <img src="assets/step2-color.png" alt="Full Color Visualization" style="width:100%;max-width:350px;border-radius:10px;border:1.5px solid var(--divider);box-shadow:none;">
-                    <div class="caption">Final color output with all lighting applied (placeholder)</div>
+                    <img src="assets/VoxelEngineColor.png" alt="Full Color Visualization" style="width:100%;max-width:350px;border-radius:10px;border:1.5px solid var(--divider);box-shadow:none;">
+                    <div class="caption">Final color output with all lighting applied</div>
                 </div>
-            </div>
-        </div>
-        <div class="subsystem-section">
-            <h3>Step 3: Demo Video</h3>
-            <ul>
-                <li>See the full rendering process in action, from raytracing to final image.</li>
-            </ul>
-            <div class="visual-block" style="text-align:center;">
-                <video controls style="width:100%;max-width:600px;border-radius:10px;border:1.5px solid var(--divider);box-shadow:none;">
-                    <source src="assets/voxel-demo.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-                <div class="caption">Demo video of the Vulkan Voxel Engine rendering pipeline (placeholder)</div>
             </div>
         </div>
     </section>

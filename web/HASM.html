@@ -427,6 +427,172 @@
             color: var(--lighter);
             font-size: 1.01rem;
         }
+        
+        /* Code Showcase Styles */
+        .code-showcase {
+            width: 100%;
+            max-width: 520px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .code-showcase h3 {
+            color: var(--accent);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .code-container {
+            background: rgba(24, 28, 36, 0.8);
+            border: 1.5px solid var(--divider);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+        
+        body.light-mode .code-container {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1.5px solid var(--divider);
+        }
+        
+        .code-container:hover {
+            border-color: var(--accent);
+        }
+        
+        .code-container pre {
+            margin: 0;
+            padding: 1.2rem;
+            overflow-x: auto;
+            font-family: 'Fira Code', 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: var(--primary);
+        }
+        
+        .code-container code {
+            background: none;
+            padding: 0;
+            border-radius: 0;
+            font-family: inherit;
+            font-size: inherit;
+            color: inherit;
+        }
+        
+        /* Assembly Syntax Highlighting */
+        .language-assembly {
+            color: #eaf0f6;
+        }
+        
+        .language-assembly .keyword {
+            color: #ff6b6b;
+            font-weight: 600;
+        }
+        
+        .language-assembly .directive {
+            color: #4ecdc4;
+            font-weight: 600;
+        }
+        
+        .language-assembly .register {
+            color: #45b7d1;
+            font-weight: 600;
+        }
+        
+        .language-assembly .number {
+            color: #feca57;
+        }
+        
+        .language-assembly .string {
+            color: #48dbfb;
+        }
+        
+        .language-assembly .comment {
+            color: #6c5ce7;
+            font-style: italic;
+        }
+        
+        /* Download Section Styles */
+        .download-section {
+            background: rgba(37, 97, 167, 0.05);
+            border: 1px solid var(--divider);
+            border-radius: 8px;
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        body.light-mode .download-section {
+            background: rgba(37, 97, 167, 0.08);
+        }
+        
+        .download-section h4 {
+            color: var(--accent);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .download-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .download-info p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: var(--lighter);
+        }
+        
+        .download-info strong {
+            color: var(--accent);
+        }
+        
+        .disclaimer {
+            background: rgba(231, 76, 60, 0.1);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            border-radius: 6px;
+            padding: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: #e74c3c;
+        }
+        
+        .disclaimer i {
+            color: #e74c3c;
+            font-size: 1rem;
+        }
+        
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.8rem 1.5rem;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .download-btn:hover {
+            background: #17407a;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 97, 167, 0.3);
+        }
         .build-section {
             max-width: 900px;
             margin: 0 auto 2.5rem auto;
@@ -672,28 +838,6 @@
                 </ul>
             </div>
         </div>
-        <div class="deepdive-code">
-            <h4><i class="fas fa-code"></i> Example: HASM Assembly Code</h4>
-            <pre><code>; Simple HASM program example
-section .data
-    message db "Hello, World!", 0
-    len equ $ - message
-
-section .text
-    global _start
-
-_start:
-    mov rax, 1          ; sys_write
-    mov rdi, 1          ; stdout
-    mov rsi, message    ; message address
-    mov rdx, len        ; message length
-    syscall
-    
-    mov rax, 60         ; sys_exit
-    mov rdi, 0          ; exit code
-    syscall
-</code></pre>
-        </div>
     </section>
     
     <section class="section" id="significance">
@@ -732,7 +876,48 @@ _start:
         <h2><i class="fas fa-play-circle" style="margin-right:0.5em;"></i>Demo & Showcase</h2>
         <div class="demo-flex">
             <div class="demo-media">
-                <img src="assets/HASMImage.png" alt="HASM Compiler Interface" style="width:100%;max-width:520px;border-radius:12px;border:1.5px solid var(--divider);box-shadow:none;">
+                <div class="code-showcase">
+                    <h3><i class="fas fa-code" style="margin-right:0.5em;"></i>Hello World Example</h3>
+                    <div class="code-container">
+                        <pre><code class="language-assembly"><span class="directive">GLOBAL</span> _start
+
+<span class="directive">SECTION</span> .data
+
+    msg <span class="keyword">DB</span> <span class="string">"Hello, World!"</span> <span class="number">0x0A</span>
+
+<span class="directive">SECTION</span> .text
+
+_start:
+    <span class="keyword">CALL</span> HelloWorld
+    <span class="keyword">JMP</span> end
+HelloWorld:
+    <span class="keyword">MOV</span> <span class="register">EDX</span> <span class="number">0x0E</span>
+    <span class="keyword">MOV</span> <span class="register">ECX</span> msg
+    <span class="keyword">MOV</span> <span class="register">EBX</span> <span class="number">0x01</span>
+    <span class="keyword">MOV</span> <span class="register">EAX</span> <span class="number">0x04</span>
+    <span class="keyword">INT</span> <span class="number">0x80</span>
+    <span class="keyword">RET</span>
+end:
+    <span class="keyword">MOV</span> <span class="register">EBX</span> <span class="number">0x00</span>
+    <span class="keyword">MOV</span> <span class="register">EAX</span> <span class="number">0x01</span>
+    <span class="keyword">INT</span> <span class="number">0x80</span></code></pre>
+                    </div>
+                    <div class="download-section">
+                        <h4><i class="fas fa-download" style="margin-right:0.5em;"></i>Download Executable</h4>
+                        <div class="download-info">
+                            <p><strong>File:</strong> HelloWorld (ELF binary)</p>
+                            <p><strong>Platform:</strong> Linux x86-64</p>
+                            <p><strong>Size:</strong> 179 bytes</p>
+                            <div class="disclaimer">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <strong>Disclaimer:</strong> This is a compiled ELF executable. Run at your own risk.
+                            </div>
+                        </div>
+                        <a href="assets/Helloworld" class="download-btn" download="HelloWorld">
+                            <i class="fas fa-download" style="margin-right:0.7em;"></i>Download HelloWorld
+                        </a>
+                    </div>
+                </div>
             </div>
             <div class="demo-stats">
                 <div class="stat-card">
@@ -809,6 +994,8 @@ chmod +x output
             }
             update();
         });
+        
+
     });
     </script>
 </body>
