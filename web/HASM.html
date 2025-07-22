@@ -888,20 +888,32 @@
         <h2>Project Overview</h2>
         <div class="about-content">
             <p>
-                <strong>HASM (Hendrik's Assembly Language)</strong> is a custom assembly language designed for Linux systems, complete with its own compiler, assembler, and toolchain. Built from scratch in C, this project demonstrates deep understanding of low-level programming, compiler design, and system architecture. HASM provides a simplified yet powerful assembly language that compiles to native x86-64 machine code.
+                <strong>HASM (Hendrik's Assembly Language)</strong> is a custom x86-64 assembler written entirely in C, located in the <code>HASM/</code> directory of this project. It compiles modern, readable assembly code directly into native ELF64 executables for Linux. HASM features a clean syntax, robust error reporting, and a simple, transparent implementation, demonstrating low-level programming and system architecture skills.
             </p>
             <div class="about-highlight">
                 <i class="fas fa-bolt"></i>
                 <div>
-                    <strong>Complete toolchain:</strong> Custom compiler, assembler, and linker that generates native ELF executables for Linux.
+                    <strong>Direct ELF64 output:</strong> The assembler generates native ELF64 executables for Linux from x86-64 assembly source code.
                 </div>
             </div>
             <div class="about-highlight">
                 <i class="fas fa-cogs"></i>
                 <div>
-                    <strong>Low-level mastery:</strong> Direct manipulation of machine code, instruction encoding, and binary file formats.
+                    <strong>Low-level mastery:</strong> Manual instruction encoding, ELF header construction, and direct binary output, all implemented in C for maximum transparency and control.
                 </div>
             </div>
+            <p>
+                HASM was primarily created as a personal educational project to deepen my understanding of low-level programming, assembler design, and the ELF binary format. The codebase is clean and well-commented, so it may also be useful or approachable for others interested in systems programming.
+            </p>
+            <p>
+                The assembler is thoroughly tested with a comprehensive suite of test cases covering all supported instructions and edge cases, ensuring reliability and correctness.
+            </p>
+            <p>
+                For testing and verification, I used the <a href="https://defuse.ca/online-x86-assembler.htm" target="_blank">Defuse Online x86/x64 Assembler and Disassembler</a> extensively. All test comparisons were written with the help of this tool to ensure that the output of HASM matched the expected machine code and behavior.
+            </p>
+            <p>
+                <strong>Note:</strong> HASM does not include a macro system, optimization passes, or a linker. It is focused on correctness, clarity, and educational value.
+            </p>
         </div>
     </section>
     
@@ -910,33 +922,28 @@
         <div class="feature-list">
             <div class="feature-card">
                 <i class="fas fa-code"></i>
-                <h3>Custom Assembly Language</h3>
-                <p>Simplified syntax designed for readability while maintaining full control over hardware resources and memory management.</p>
+                <h3>Custom Assembly Syntax</h3>
+                <p>Simplified, modern syntax designed for readability while maintaining full control over hardware resources and memory management.</p>
             </div>
             <div class="feature-card">
                 <i class="fas fa-cogs"></i>
-                <h3>Complete Compiler</h3>
-                <p>Multi-pass compiler with lexical analysis, parsing, semantic analysis, and code generation phases.</p>
+                <h3>Assembler Pipeline</h3>
+                <p>Multi-phase assembler with tokenization, parsing, label resolution, and binary code generation.</p>
             </div>
             <div class="feature-card">
                 <i class="fas fa-file-code"></i>
-                <h3>ELF Binary Generation</h3>
-                <p>Generates standard ELF (Executable and Linkable Format) binaries compatible with Linux systems.</p>
+                <h3>ELF64 Binary Generation</h3>
+                <p>Produces standard ELF64 (Executable and Linkable Format) binaries compatible with Linux systems.</p>
             </div>
             <div class="feature-card">
                 <i class="fas fa-microchip"></i>
                 <h3>x86-64 Support</h3>
-                <p>Full support for x86-64 instruction set architecture with custom instruction encoding and optimization.</p>
+                <p>Supports a wide range of x86-64 instructions, registers, and addressing modes.</p>
             </div>
             <div class="feature-card">
-                <i class="fas fa-tools"></i>
-                <h3>Custom Instructions</h3>
-                <p>Extensible instruction set with support for custom instructions and macros for specialized operations.</p>
-            </div>
-            <div class="feature-card">
-                <i class="fas fa-rocket"></i>
-                <h3>Optimization Passes</h3>
-                <p>Multiple optimization passes including dead code elimination, constant folding, and register allocation.</p>
+                <i class="fas fa-bug"></i>
+                <h3>Error Reporting</h3>
+                <p>Detailed error messages with line and column information for easier debugging and learning.</p>
             </div>
         </div>
     </section>
@@ -949,29 +956,27 @@
                 <h3>Language Design</h3>
                 <ul>
                     <li>Simplified syntax inspired by x86 assembly but with improved readability.</li>
-                    <li>Support for labels, directives, and custom instruction definitions.</li>
-                    <li>Type-safe addressing modes and operand validation.</li>
-                    <li>Macro system for code reuse and abstraction.</li>
+                    <li>Support for labels and standard assembler directives (SECTION, GLOBAL, etc.).</li>
+                    <li>Operand validation and addressing mode checks.</li>
                 </ul>
             </div>
             <div class="deepdive-card">
                 <i class="fas fa-sitemap"></i>
-                <h3>Compiler Architecture</h3>
+                <h3>Assembler Architecture</h3>
                 <ul>
-                    <li><strong>Lexical Analysis:</strong> Tokenization and symbol table management.</li>
-                    <li><strong>Parsing:</strong> Recursive descent parser with error recovery.</li>
-                    <li><strong>Semantic Analysis:</strong> Type checking and symbol resolution.</li>
-                    <li><strong>Code Generation:</strong> Instruction selection and binary output.</li>
+                    <li><strong>Tokenization:</strong> Lexical analysis of source code into tokens.</li>
+                    <li><strong>Parsing:</strong> Construction of instruction and data structures from tokens.</li>
+                    <li><strong>Label Resolution:</strong> Resolves jump and call targets.</li>
+                    <li><strong>Code Generation:</strong> Encodes instructions and writes ELF64 binary output.</li>
                 </ul>
             </div>
             <div class="deepdive-card">
                 <i class="fas fa-memory"></i>
                 <h3>ELF Format Handling</h3>
                 <ul>
-                    <li>Direct manipulation of ELF file headers and section tables.</li>
-                    <li>Proper symbol table generation and relocation handling.</li>
-                    <li>Support for different ELF sections (text, data, bss, etc.).</li>
-                    <li>Debug information generation for development tools.</li>
+                    <li>Manual construction of ELF file headers and section tables.</li>
+                    <li>Support for .text, .data, and .bss sections.</li>
+                    <li>Direct binary output for Linux x86-64.</li>
                 </ul>
             </div>
             <div class="deepdive-card">
@@ -980,18 +985,14 @@
                 <ul>
                     <li>Manual x86-64 instruction encoding and decoding.</li>
                     <li>Support for various addressing modes and operand types.</li>
-                    <li>Optimization of instruction sequences for performance.</li>
-                    <li>Custom instruction extension framework.</li>
                 </ul>
             </div>
             <div class="deepdive-card">
-                <i class="fas fa-cogs"></i>
-                <h3>Optimization Engine</h3>
+                <i class="fas fa-bug"></i>
+                <h3>Error Handling</h3>
                 <ul>
-                    <li>Dead code elimination and unreachable code removal.</li>
-                    <li>Constant folding and expression simplification.</li>
-                    <li>Register allocation and spill optimization.</li>
-                    <li>Peephole optimization for instruction sequences.</li>
+                    <li>Detailed error messages with source location information.</li>
+                    <li>Operand and instruction validation for robust assembly.</li>
                 </ul>
             </div>
         </div>
@@ -1002,29 +1003,24 @@
         <div class="about-content">
             <h3>What I Learned</h3>
             <ul style="text-align: left; max-width: 800px; margin: 0 auto 2rem auto;">
-                <li><strong>Compiler Design:</strong> Deep understanding of lexical analysis, parsing, semantic analysis, and code generation phases.</li>
+                <li><strong>Assembler Design:</strong> Understanding of tokenization, parsing, label resolution, and binary code generation.</li>
                 <li><strong>Low-Level Programming:</strong> Mastery of x86-64 architecture, instruction encoding, and binary file formats.</li>
                 <li><strong>System Programming:</strong> Direct manipulation of ELF files, memory layout, and system call interfaces.</li>
-                <li><strong>Language Design:</strong> Principles of creating readable, efficient, and extensible programming languages.</li>
-                <li><strong>Optimization Techniques:</strong> Implementation of various compiler optimizations for performance improvement.</li>
-                <li><strong>Toolchain Development:</strong> Building complete development tools from assembler to linker.</li>
+                <li><strong>Language Design:</strong> Principles of creating readable, efficient, and maintainable assembly languages.</li>
+                <li><strong>Tool Development:</strong> Building a complete assembler from scratch.</li>
             </ul>
-            
             <h3>Technical Challenges Overcome</h3>
             <ul style="text-align: left; max-width: 800px; margin: 0 auto 2rem auto;">
                 <li><strong>ELF Format Complexity:</strong> Understanding and implementing the complex ELF binary format specification.</li>
                 <li><strong>Instruction Encoding:</strong> Manual encoding of x86-64 instructions with proper addressing modes.</li>
-                <li><strong>Error Handling:</strong> Robust error reporting and recovery throughout the compilation pipeline.</li>
+                <li><strong>Error Handling:</strong> Robust error reporting throughout the assembly pipeline.</li>
                 <li><strong>Cross-Platform Compatibility:</strong> Ensuring generated binaries work correctly on Linux systems.</li>
-                <li><strong>Performance Optimization:</strong> Balancing code generation speed with output optimization.</li>
             </ul>
-            
             <h3>Real-World Applications</h3>
             <ul style="text-align: left; max-width: 800px; margin: 0 auto;">
-                <li><strong>Educational Tool:</strong> Demonstrates compiler theory and low-level programming concepts.</li>
-                <li><strong>Embedded Systems:</strong> Potential for custom instruction sets in specialized hardware.</li>
-                <li><strong>System Programming:</strong> Foundation for understanding how higher-level languages compile to machine code.</li>
-                <li><strong>Research Platform:</strong> Base for experimenting with new language features and optimizations.</li>
+                <li><strong>Personal Learning:</strong> Served as a hands-on way for me to explore assembler theory and low-level programming concepts.</li>
+                <li><strong>Embedded Systems:</strong> Potential for use in teaching or prototyping for specialized hardware.</li>
+                <li><strong>System Programming:</strong> Foundation for understanding how higher-level languages are translated to machine code.</li>
             </ul>
         </div>
     </section>
@@ -1066,7 +1062,7 @@ end:
                         <p><strong>Size:</strong> 179 bytes</p>
                         <div class="disclaimer">
                             <i class="fas fa-exclamation-triangle"></i>
-                            <strong>Disclaimer:</strong> This is a compiled ELF executable. Run at your own risk.
+                            <strong>Disclaimer:</strong> This is a compiled ELF executable. Run at your own risk. The source code and assembler are located in the <code>HASM/</code> folder.
                         </div>
                     </div>
                     <a href="assets/Helloworld" class="download-btn" download="HelloWorld">
@@ -1077,11 +1073,11 @@ end:
             </div>
             <div class="demo-stats">
                 <div class="stat-card">
-                    <div class="stat-value" data-target="5000">0</div>
-                    <div class="stat-label">Lines of C Code</div>
+                    <div class="stat-value" data-target="7455">0</div>
+                    <div class="stat-label">Lines of C Code (including headers)</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value" data-target="50">0</div>
+                    <div class="stat-value" data-target="38">0</div>
                     <div class="stat-label">Supported Instructions</div>
                 </div>
                 <div class="stat-card">
@@ -1089,8 +1085,8 @@ end:
                     <div class="stat-label">Compiler Passes</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value" data-target="100">0</div>
-                    <div class="stat-label">Test Cases</div>
+                    <div class="stat-value" data-target="842180">0</div>
+                    <div class="stat-label">Test Case Lines</div>
                 </div>
             </div>
         </div>
@@ -1102,14 +1098,18 @@ end:
             <div class="build-instructions">
                 <ol>
                     <li>Ensure you have a C compiler (GCC) and Make installed on your Linux system.</li>
-                    <li>Clone the repository from the HASM folder.</li>
-                    <li>Open a terminal in the HASM directory.</li>
-                    <li>Run the following commands:</li>
+                    <li>Navigate to the <code>HASM/</code> directory in your terminal.</li>
+                    <li>Run the following command to build the assembler:</li>
                 </ol>
                 <pre><code>make
-./hasm input.asm -o output
+</code></pre>
+                <ol start="4">
+                    <li>To assemble a program, run:</li>
+                </ol>
+                <pre><code>./HASM input.hasm -o output
 chmod +x output
-./output</code></pre>
+./output
+</code></pre>
                 <div class="build-links">
                     <a href="HASMDocs.html" class="cta-btn" target="_blank">
                         <i class="fas fa-book"></i>
@@ -1117,7 +1117,7 @@ chmod +x output
                     </a>
                     <a href="#" class="cta-btn" target="_blank">
                         <i class="fab fa-github"></i>
-                        Source Code
+                        Source Code (see HASM/ folder)
                     </a>
                 </div>
             </div>
