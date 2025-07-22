@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hendrik Sorensen - Software Developer Portfolio">
+    <title>Hendrik Sorensen | Software Developer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap");
+        
+        :root {
+            --primary: #e2e8f0;
+            --secondary: #94a3b8;
+            --dark: #0f172a;
+            --darker: #020617;
+            --light: #f1f5f9;
+            --lighter: #f8fafc;
+            --accent: #3b82f6;
+            --accent2: #1d4ed8;
+            --divider: #334155;
+            --header-height: 4rem;
+            --border-radius: 12px;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        
+        body.light-mode {
+            --primary: #0f172a;
+            --secondary: #334155;
+            --dark: #ffffff;
+            --darker: #f8fafc;
+            --light: #f1f5f9;
+            --lighter: #e2e8f0;
+            --accent: #2563eb;
+            --accent2: #1d4ed8;
+            --divider: #94a3b8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+        
+        body {
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            color: var(--primary);
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+            font-size: 1rem;
+            line-height: 1.7;
+            overflow-x: hidden;
+            transition: background 0.4s, color 0.3s;
+        }
+        
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 600;
+            line-height: 1.3;
+            color: var(--primary);
+        }
+        
+        h1 { font-size: 2.5rem; }
+        h2 { font-size: 2rem; margin-bottom: 1.5rem; }
+        h3 { font-size: 1.5rem; margin-bottom: 1rem; }
+        h4 { font-size: 1.25rem; margin-bottom: 0.75rem; }
+        
+        p {
+            margin-bottom: 1.25rem;
+            color: var(--secondary);
+        }
+        
+        /* Header */
+        header {
+            position: sticky;
+            top: 0; 
+            left: 0; 
+            width: 100%;
+            height: var(--header-height);
+            padding: 0 2rem;
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            z-index: 1000;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--divider);
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+        }
+        
+        body.light-mode header {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-decoration: none;
+            letter-spacing: -0.025em;
+        }
+        
+        nav { 
+            display: flex; 
+            gap: 2rem; 
+        }
+        
+        nav a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.5rem 0;
+            transition: color 0.2s;
+            position: relative;
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute; 
+            bottom: 0; 
+            left: 0; 
+            width: 0; 
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.2s;
+        }
+        
+        nav a:hover::after { 
+            width: 100%; 
+        }
+        
+        nav a:hover { 
+            color: var(--accent); 
+        }
+        
+        .dark-toggle {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 1.25rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        
+        .dark-toggle:hover { 
+            color: var(--accent);
+            background: rgba(59, 130, 246, 0.1);
+        }
+        
+        /* Hero Section */
+        #profile {
+            width: 100vw;
+            max-width: 100vw;
+            margin: 0;
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 6rem 2rem 4rem 2rem;
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 50%, var(--accent) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #profile::before {
+            content: '';
+            position: absolute;
+            top: -50%; 
+            left: -50%; 
+            width: 200%; 
+            height: 200%;
+            background: 
+                conic-gradient(from 0deg at 20% 80%, 
+                    rgba(59, 130, 246, 0.1) 0deg, 
+                    rgba(29, 78, 216, 0.05) 120deg, 
+                    rgba(37, 99, 235, 0.08) 240deg, 
+                    rgba(59, 130, 246, 0.1) 360deg),
+                conic-gradient(from 180deg at 80% 20%, 
+                    rgba(29, 78, 216, 0.08) 0deg, 
+                    rgba(37, 99, 235, 0.06) 90deg, 
+                    rgba(59, 130, 246, 0.04) 180deg, 
+                    rgba(29, 78, 216, 0.08) 360deg);
+            animation: swirl 25s linear infinite;
+        }
+        
+        @keyframes swirl {
+            0% { 
+                filter: hue-rotate(0deg);
+            }
+            25% { 
+                filter: hue-rotate(90deg);
+            }
+            50% { 
+                filter: hue-rotate(180deg);
+            }
+            75% { 
+                filter: hue-rotate(270deg);
+            }
+            100% { 
+                filter: hue-rotate(360deg);
+            }
+        }
+        
+        body.light-mode #profile {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #3b82f6 100%);
+        }
+        
+        .profile-container {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 1200px;
+            gap: 3rem;
+            margin: 0 auto;
+        }
+        
+        .profile-img {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--accent);
+            box-shadow: var(--shadow-lg);
+            animation: float 6s ease-in-out infinite;
+            filter: grayscale(10%);
+            transition: all 0.5s ease;
+            flex-shrink: 0;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .profile-content {
+            max-width: 600px;
+            flex-shrink: 0;
+        }
+        
+        .section__text {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+            font-weight: 400;
+        }
+        
+        .section__text__p1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            line-height: 1.1;
+            letter-spacing: -0.025em;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .section__text__p2 {
+            font-size: 1.5rem;
+            margin-bottom: 3rem;
+            color: var(--secondary);
+            font-weight: 400;
+            line-height: 1.5;
+        }
+        
+        body.light-mode .section__text__p1 {
+            color: var(--dark);
+        }
+        
+        body.light-mode .section__text,
+        body.light-mode .section__text__p2 {
+            color: var(--secondary);
+        }
+        
+        /* Buttons */
+        .btn-container {
+            display: flex;
+            gap: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.95rem 2.5rem;
+            font-size: 1.18rem;
+            font-weight: 700;
+            color: #fff;
+            background: var(--accent);
+            border: none;
+            border-radius: 2rem;
+            box-shadow: 0 2px 12px 0 rgba(37,97,167,0.10);
+            text-decoration: none;
+            letter-spacing: 0.5px;
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s;
+            cursor: pointer;
+            line-height: 1;
+        }
+        
+        .btn:hover, .btn:focus {
+            background: #17407a;
+            color: #eaf0f6;
+            box-shadow: 0 4px 24px 0 #2561a733;
+            transform: translateY(-2px) scale(1.04);
+        }
+        
+        /* Social Icons */
+        #socials-container {
+            display: flex;
+            justify-content: flex-start;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .social-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid var(--accent);
+            color: var(--primary);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .social-icon:hover {
+            background: var(--accent);
+            color: #fff;
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .profile-container {
+                flex-direction: column;
+                text-align: center;
+                gap: 2rem;
+            }
+            
+            .btn-container, #socials-container {
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                padding: 0 1rem;
+            }
+            
+            nav {
+                gap: 1rem;
+            }
+            
+            #profile {
+                padding: 4rem 1rem 3rem 1rem;
+            }
+            
+            .btn-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            /* Small screen adjustments handled by clamp() functions */
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <a href="#" class="logo">Hendrik<span style="color:var(--primary);font-weight:400;">Sorensen</span></a>
+        <nav id="nav">
+            <a href="#about">About</a>
+            <a href="#education">Education</a>
+            <a href="#experience">Experience</a>
+            <a href="#non-ai-projects">Projects</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <button class="dark-toggle" onclick="toggleDarkMode()" aria-label="Toggle dark/light mode">
+            <i class="fas fa-moon"></i>
+        </button>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="profile">
+        <div class="profile-container">
+            <img src="./assets/profile-pic.png" alt="Hendrik Sorensen" class="profile-img">
+            <div class="profile-content">
+                <p class="section__text">Hello, I'm</p>
+                <h1 class="section__text__p1">Hendrik Sorensen</h1>
+                <p class="section__text__p2">Software Developer</p>
+                <div class="btn-container">
+                    <button class="btn" onclick="window.open('./assets/resume-example.pdf')">
+                        Download CV
+                    </button>
+                    <button class="btn" onclick="location.href='./#contact'">
+                        Contact Info
+                    </button>
+                </div>
+                <div id="socials-container">
+                    <a href="https://www.linkedin.com/in/hendrik-sorensen-76553b28b/" class="social-icon" target="_blank">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="https://github.com/orgs/HnsorensSoftware/repositories" class="social-icon" target="_blank">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="mailto:hnsorens@umich.edu" class="social-icon">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="section-container">
+            <h1 class="title">About Me</h1>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>
+                        Hello! I'm Hendrik Sorensen, a passionate software developer with a focus on building clean, efficient, and user-friendly applications. 
+                        I specialize in low-level software engineering, with a strong interest in artificial intelligence, machine learning, computer graphics, and compilers.
+                    </p>
+                    <p>
+                        My journey in software development began when I wrote my first line of code, and since then I've been fascinated by the power of technology 
+                        to solve complex problems and create innovative solutions. I thrive in challenging environments that push me to grow and learn new technologies.
+                    </p>
+                    <p>
+                        When I'm not coding, you can find me exploring new technologies, contributing to open-source projects, or enjoying outdoor activities.
+                    </p>
+                    <div class="skills-container">
+                        <span class="skill">C++</span>
+                        <span class="skill">Python</span>
+                        <span class="skill">Machine Learning</span>
+                        <span class="skill">Computer Graphics</span>
+                        <span class="skill">Compilers</span>
+                        <span class="skill">Low-Level Programming</span>
+                        <span class="skill">Data Structures</span>
+                        <span class="skill">Algorithms</span>
+                        <span class="skill">OpenGL</span>
+                        <span class="skill">AI</span>
+                        <span class="skill">Vulkan</span>
+                        <span class="skill">Ray Tracing</span>
+                        <span class="skill">Assembly</span>
+                        <span class="skill">LLVM</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education">
+        <div class="section-container">
+            <h1 class="title">Education</h1>
+            <div class="education-container">
+                <div class="education-card">
+                    <h3 class="education-title">University of Michigan</h3>
+                    <p class="education-degree">Bachelor of Science in Computer Engineering</p>
+                    <p class="education-date">2024 - 2028</p>
+                    <div class="education-courses">
+                        <h4 class="courses-title">Relevant Coursework:</h4>
+                        <div class="courses-list">
+                            <span class="course">Data Structures and Algorithms</span>
+                            <span class="course">Programming and Data Structures</span>
+                            <span class="course">Linear Algebra</span>
+                            <span class="course">Discrete Math</span>
+                            <span class="course">Physics</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience">
+        <div class="section-container">
+            <h1 class="title">Experience</h1>
+            <div class="experience-container">
+                <div class="experience-card">
+                    <div class="experience-header">
+                        <h3 class="experience-title">Software Engineering Intern</h3>
+                        <p class="experience-company">Jovian Software Consulting</p>
+                        <p class="experience-location">Grand Rapids, MI</p>
+                        <p class="experience-date">Summer 2022; Summer 2023 – Fall 2024; Summer 2025</p>
+                    </div>
+                    <div class="experience-content">
+                        <div class="experience-period">
+                            <h4 class="period-title">Summer 2025</h4>
+                            <p class="period-description">
+                                Contributed to the August 2025 release of TSDK 2.0, a free aerospace data modeling platform designed to replace CAMEO Workbench for government use. Refactored and unified diagram generation in GoJS, simplifying code and reducing duplication. Improved diagram editing UX and performance in a React + MUI desktop app built with Electron. Wrote end-to-end tests in Playwright and resolved critical bugs.
+                            </p>
+                            <div class="period-tech">
+                                <span class="tech">React</span>
+                                <span class="tech">MUI</span>
+                                <span class="tech">Electron</span>
+                                <span class="tech">GoJS</span>
+                                <span class="tech">Playwright</span>
+                                <span class="tech">TypeScript</span>
+                            </div>
+                        </div>
+                        <div class="experience-period">
+                            <h4 class="period-title">Summer 2023 - Fall 2024</h4>
+                            <p class="period-description">
+                                Rebuilt an AR mission planning tool in Unreal Engine (C++) for Hololens 2, replacing a Unity prototype. Implemented terrain rendering with Blender assets, terrain locking in AR, and live vehicle positioning via raycasting and real-time packet streaming for live updates.
+                            </p>
+                            <div class="period-tech">
+                                <span class="tech">Unreal Engine</span>
+                                <span class="tech">C++</span>
+                                <span class="tech">AR/VR</span>
+                                <span class="tech">Hololens 2</span>
+                                <span class="tech">Blender</span>
+                                <span class="tech">Raycasting</span>
+                            </div>
+                        </div>
+                        <div class="experience-period">
+                            <h4 class="period-title">Summer 2022</h4>
+                            <p class="period-description">
+                                Prototyped two AR applications for HoloLens 2 using Unity:
+                            </p>
+                            <ul class="period-list">
+                                <li><strong>Mission Control:</strong> Visualized terrain and static vehicles for pre-mission planning.</li>
+                                <li><strong>Maintenance Control:</strong> Overlaid component-level Blackhawk helicopter diagnostics with dynamic maintenance indicators.</li>
+                            </ul>
+                            <div class="period-tech">
+                                <span class="tech">Unity</span>
+                                <span class="tech">C#</span>
+                                <span class="tech">AR/VR</span>
+                                <span class="tech">Hololens 2</span>
+                                <span class="tech">3D Visualization</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="non-ai-projects" class="projects-section">
+        <div class="section-container">
+            <h1 class="title">Projects</h1>
+            <div class="projects-container">
+                <div class="projects-grid">
+                    <div class="project-card non-ai-project" onclick="window.open('HASM.html', '_blank')">
+                        <img src="assets/HASMImage.png" alt="ASM project" class="project-img">
+                        <div class="project-content">
+                            <h3 class="project-title">HASM (Hendrik's Assembly Language)</h3>
+                            <p class="project-description">
+                                A simple assembly language created for Linux with custom compiler and toolchain supporting custom instructions and optimizations.
+                            </p>
+                            <div class="project-tech">
+                                <span class="tech">C</span>
+                                <span class="tech">Compiler</span>
+                                <span class="tech">ASM</span>
+                                <span class="tech">ELF</span>
+                                <span class="tech">Low-Level</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="HASM.html" class="project-link" target="_blank" onclick="event.stopPropagation()">
+                                    <i class="fas fa-external-link-alt"></i> Overview
+                                </a>
+                                <a href="HASMDocs.html" class="project-link" target="_blank" onclick="event.stopPropagation()">
+                                    <i class="fas fa-external-link-alt"></i> Docs
+                                </a>
+                                <a href="https://github.com/hnsorens/HASM" class="project-link" target="_blank" onclick="event.stopPropagation()">
+                                    <i class="fab fa-github"></i> Source Code
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-card non-ai-project" onclick="window.open('VulkanVoxelEngine.html', '_blank')">
+                        <img src="assets/VoxelEngine.png" alt="Voxel Engine" class="project-img">
+                        <div class="project-content">
+                            <h3 class="project-title">Voxel Engine</h3>
+                            <p class="project-description">
+                                A custom raytraced voxel engine created in Vulkan with real-time lighting, physics, and procedural generation capabilities.
+                            </p>
+                            <div class="project-tech">
+                                <span class="tech">C++</span>
+                                <span class="tech">GLSL</span>
+                                <span class="tech">Ray Tracing</span>
+                                <span class="tech">Vulkan</span>
+                                <span class="tech">GPU Programming</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="VulkanVoxelEngine.html" class="project-link" target="_blank" onclick="event.stopPropagation()">
+                                    <i class="fas fa-external-link-alt"></i> Overview/Live Demo
+                                </a>
+                                <a href="https://github.com/hnsorens/VoxelEngine" class="project-link" target="_blank" onclick="event.stopPropagation()">
+                                    <i class="fab fa-github"></i> Source Code
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-card non-ai-project" onclick="window.open('HendOS.html', '_blank')">
+                        <img src="assets/os-cover.png" alt="Game Engine" class="project-img">
+                        <div class="project-content">
+                            <h3 class="project-title">Unix Operating System</h3>
+                            <p class="project-description">
+                                A simple, but high performing x86-64 Unix Operating System with a Basic Shell, C Standard Library, Process and Memory Management, and More.
+                            </p>
+                            <div class="project-tech">
+                                <span class="tech">C</span>
+                                <span class="tech">x86-64</span>
+                                <span class="tech">UEFI</span>
+                                <span class="tech">ASM</span>
+                                <span class="tech">Unix</span>
+                                <span class="tech">Low-Level</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="HendOS.html" class="project-link" target="_blank" onclick="event.stopPropagation()">
+                                    <i class="fas fa-external-link-alt"></i> Overview
+                                </a>
+                                <a href="OS.html" class="project-link" target="_blank" onclick="event.stopPropagation()">
+                                    <i class="fas fa-external-link-alt"></i> Docs
+                                </a>
+                                <a href="https://github.com/hnsorens/HendOS" class="project-link" target="_blank" onclick="event.stopPropagation()">
+                                    <i class="fab fa-github"></i> Source Code
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="section-container">
+            <h1 class="title">Contact Me</h1>
+            <div class="contact-info-upper-container">
+                <div class="contact-info-container">
+                    <i class="fas fa-envelope contact-icon"></i>
+                    <p><a href="mailto:hnsorens@umich.edu">hnsorens@umich.edu</a></p>
+                </div>
+                <div class="contact-info-container">
+                    <i class="fab fa-linkedin-in contact-icon"></i>
+                    <p><a href="https://www.linkedin.com/in/hendrik-sorensen-76553b28b/" target="_blank">LinkedIn</a></p>
+                </div>
+                <div class="contact-info-container">
+                    <i class="fab fa-github contact-icon"></i>
+                    <p><a href="https://github.com/hnsorens?tab=repositories" target="_blank">GitHub</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Hendrik Sorensen. All rights reserved. | <a href="mailto:hnsorens@gmail.com">Contact Me</a></p>
+    </footer>
+
+    <style>
+        /* Section Styling */
+        section {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            position: relative;
+        }
+        
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            text-align: center;
+            letter-spacing: -0.025em;
+        }
+        
+        /* About Section */
+        .about-content {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        .about-text {
+            flex: 1;
+        }
+        
+        .about-text p {
+            font-size: 1.125rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            color: var(--secondary);
+        }
+        
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .skill {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--divider);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            color: var(--primary);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .skill:hover {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        body.light-mode .skill {
+            background: rgba(255, 255, 255, 0.95);
+            border-color: #cbd5e1;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        /* Education Section */
+        .education-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .education-card {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            border: 1px solid var(--divider);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .education-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent);
+            transition: all 0.3s ease;
+        }
+        
+        .education-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        body.light-mode .education-card {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: var(--shadow-sm);
+            border-color: #cbd5e1;
+        }
+        
+        .education-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .education-degree {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .education-date {
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .education-courses {
+            margin-top: 1.5rem;
+        }
+        
+        .courses-title {
+            font-size: 1rem;
+            color: var(--accent);
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .courses-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .course {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--divider);
+            color: var(--primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        
+        .course:hover {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+        
+        body.light-mode .course {
+            background: rgba(255, 255, 255, 0.95);
+            border-color: #cbd5e1;
+        }
+        
+        /* Experience Section */
+        .experience-container {
+            margin-top: 2rem;
+        }
+        
+        .experience-card {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            border: 1px solid var(--divider);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .experience-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent);
+            transition: all 0.3s ease;
+        }
+        
+        .experience-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        body.light-mode .experience-card {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: var(--shadow-sm);
+            border-color: #cbd5e1;
+        }
+        
+        .experience-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--divider);
+        }
+        
+        .experience-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .experience-company {
+            color: var(--primary);
+            margin-bottom: 0.3rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .experience-location {
+            color: var(--secondary);
+            margin-bottom: 0.3rem;
+            font-size: 0.95rem;
+        }
+        
+        .experience-date {
+            color: var(--secondary);
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+        
+        .experience-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .experience-period {
+            padding-left: 1rem;
+            border-left: 2px solid var(--divider);
+            position: relative;
+        }
+        
+        .experience-period::before {
+            content: '';
+            position: absolute;
+            left: -0.5rem;
+            top: 0.5rem;
+            width: 0.5rem;
+            height: 0.5rem;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+        
+        .period-title {
+            font-size: 1.1rem;
+            color: var(--accent);
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .period-description {
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+        
+        .period-list {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+        
+        .period-list li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+        
+        .period-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        /* Projects Sections */
+        .projects-section {
+            position: relative;
+            overflow: hidden;
+            padding: 4rem 2rem;
+        }
+        
+        .projects-container {
+            position: relative;
+            margin-top: 3rem;
+        }
+        
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            width: 100%;
+        }
+        
+        .project-card {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            border: 1px solid var(--divider);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .ai-project {
+            border-left: 4px solid var(--accent);
+        }
+        
+        .non-ai-project {
+            border-left: 4px solid var(--accent2);
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        body.light-mode .project-card {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: var(--shadow-sm);
+            border-color: #cbd5e1;
+        }
+        
+        .project-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+        
+        .project-card:hover .project-img {
+            transform: scale(1.05);
+        }
+        
+        .project-content {
+            padding: 1.5rem;
+        }
+        
+        .project-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+        
+        .project-description {
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+        
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .tech {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--divider);
+            color: var(--primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        
+        .tech:hover {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+        
+        body.light-mode .tech {
+            background: rgba(255, 255, 255, 0.95);
+            border-color: #cbd5e1;
+        }
+        
+        .project-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #fff;
+            background: var(--accent);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 1.5rem;
+            border: 1px solid var(--accent);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .project-link:hover {
+            background: var(--accent2);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .project-link i {
+            font-size: 1rem;
+        }
+        
+        /* Contact Section */
+        .contact-info-upper-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin: 2rem auto;
+            max-width: 800px;
+        }
+        
+        .contact-info-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--divider);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .contact-info-container:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent);
+            box-shadow: var(--shadow-md);
+        }
+        
+        body.light-mode .contact-info-container {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: var(--shadow-sm);
+            border-color: #cbd5e1;
+        }
+        
+        .contact-icon {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .contact-info-container p {
+            color: var(--primary);
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .contact-info-container a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-info-container a:hover {
+            color: var(--accent);
+        }
+        
+        /* Footer */
+        footer {
+            background: rgba(255, 255, 255, 0.02);
+            border-top: 1px solid var(--divider);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+        
+        body.light-mode footer {
+            background: rgba(248, 250, 252, 0.8);
+            border-top-color: #cbd5e1;
+        }
+        
+        footer p {
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+        
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        footer a:hover {
+            color: var(--accent);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .projects-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            section {
+                padding: 3rem 1rem;
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-info-upper-container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+
+    <script>
+        // Dark/Light mode toggle
+        function toggleDarkMode() {
+            document.body.classList.toggle('light-mode');
+            localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+        }
+        
+        window.onload = function() {
+            if(localStorage.getItem('theme') === 'light') {
+                document.body.classList.add('light-mode');
+            }
+        }
+        
+        // Header scroll effect
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Animation on scroll
+        const animateOnScroll = () => {
+            const elements = document.querySelectorAll(
+                '.project-card, .skill, .contact-info-container, .education-card, .course'
+            );
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.2;
+                
+                if (elementPosition < screenPosition) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        };
+
+        // Set initial state for animated elements
+        document.querySelectorAll(
+            '.project-card, .skill, .contact-info-container, .education-card, .course'
+        ).forEach(element => {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(20px)';
+            element.style.transition = 'all 0.5s ease';
+        });
+
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
+    </script>
+</body>
+</html>
