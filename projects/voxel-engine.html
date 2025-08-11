@@ -9,37 +9,38 @@
     <meta property="og:image" content="assets/project-1.png">
     <meta property="og:type" content="website">
     <title>Vulkan Voxel Engine | Real-Time Raytraced Voxel World</title>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap");
         
         :root {
-            --primary: #e2e8f0;
-            --secondary: #94a3b8;
+            --primary: #f8fafc;
+            --secondary: #cbd5e1;
             --dark: #0f172a;
             --darker: #020617;
-            --light: #f1f5f9;
-            --lighter: #f8fafc;
-            --accent: #3b82f6;
-            --accent2: #1d4ed8;
-            --divider: #334155;
+            --light: #1e293b;
+            --lighter: #334155;
+            --accent: #f8fafc;
+            --accent2: #e2e8f0;
+            --divider: #475569;
             --header-height: 4rem;
-            --border-radius: 12px;
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --border-radius: 8px;
+            --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.3);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.4);
         }
         
         body.light-mode {
             --primary: #0f172a;
-            --secondary: #334155;
+            --secondary: #475569;
             --dark: #ffffff;
             --darker: #f8fafc;
             --light: #f1f5f9;
             --lighter: #e2e8f0;
-            --accent: #2563eb;
-            --accent2: #1d4ed8;
-            --divider: #94a3b8;
+            --accent: #0f172a;
+            --accent2: #1e293b;
+            --divider: #cbd5e1;
         }
         
         * { 
@@ -57,7 +58,7 @@
             font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
             min-height: 100vh;
             color: var(--primary);
-            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+            background: var(--darker);
             font-size: 1rem;
             line-height: 1.7;
             overflow-x: hidden;
@@ -93,7 +94,7 @@
             justify-content: space-between; 
             align-items: center;
             z-index: 1000;
-            background: rgba(15, 23, 42, 0.95);
+            background: rgba(2, 6, 23, 0.98);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--divider);
             box-shadow: var(--shadow-md);
@@ -101,14 +102,14 @@
         }
         
         body.light-mode header {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.98);
             box-shadow: var(--shadow-md);
         }
         
         .logo {
             font-size: 1.75rem;
             font-weight: 700;
-            color: var(--accent);
+            color: var(--primary);
             text-decoration: none;
             letter-spacing: -0.025em;
         }
@@ -128,14 +129,14 @@
             position: relative;
         }
         
-        nav a::after {
+                nav a::after {
             content: '';
-            position: absolute; 
+            position: absolute;
             bottom: 0; 
             left: 0; 
             width: 0; 
             height: 2px;
-            background: var(--accent);
+            background: var(--primary);
             transition: width 0.2s;
         }
         
@@ -144,23 +145,24 @@
         }
         
         nav a:hover { 
-            color: var(--accent); 
+            color: var(--primary); 
         }
         
         .dark-toggle {
             background: none;
-            border: none;
-            color: var(--primary);
+            border: 1px solid var(--divider);
+            color: var(--secondary);
             font-size: 1.25rem;
             cursor: pointer;
             padding: 0.5rem;
-            border-radius: 8px;
+            border-radius: 6px;
             transition: all 0.2s;
         }
         
         .dark-toggle:hover { 
-            color: var(--accent);
-            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary);
+            background: var(--light);
+            border-color: var(--primary);
         }
         
         /* Main Layout */
@@ -180,7 +182,7 @@
             align-items: center;
             justify-content: center;
             padding: 6rem 2rem 4rem 2rem;
-            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 50%, var(--accent) 100%);
+            background: var(--dark);
             position: relative;
             overflow: hidden;
         }
@@ -188,40 +190,13 @@
         .hero::before {
             content: '';
             position: absolute;
-            top: -50%; 
-            left: -50%; 
-            width: 200%; 
-            height: 200%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: 
-                conic-gradient(from 0deg at 20% 80%, 
-                    rgba(59, 130, 246, 0.1) 0deg, 
-                    rgba(29, 78, 216, 0.05) 120deg, 
-                    rgba(37, 99, 235, 0.08) 240deg, 
-                    rgba(59, 130, 246, 0.1) 360deg),
-                conic-gradient(from 180deg at 80% 20%, 
-                    rgba(29, 78, 216, 0.08) 0deg, 
-                    rgba(37, 99, 235, 0.06) 90deg, 
-                    rgba(59, 130, 246, 0.04) 180deg, 
-                    rgba(29, 78, 216, 0.08) 360deg);
-            animation: swirl 10s linear infinite;
-        }
-        
-        @keyframes swirl {
-            0% { 
-                filter: hue-rotate(0deg);
-            }
-            25% { 
-                filter: hue-rotate(90deg);
-            }
-            50% { 
-                filter: hue-rotate(180deg);
-            }
-            75% { 
-                filter: hue-rotate(270deg);
-            }
-            100% { 
-                filter: hue-rotate(360deg);
-            }
+                radial-gradient(circle at 20% 80%, rgba(248, 250, 252, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(248, 250, 252, 0.02) 0%, transparent 50%);
         }
         
         .hero-content {
@@ -261,27 +236,28 @@
             padding: 1rem 2rem;
             font-size: 1rem;
             font-weight: 600;
-            color: #fff;
-            background: var(--accent);
-            border: none;
+            color: var(--darker);
+            background: var(--primary);
+            border: 2px solid var(--primary);
             border-radius: var(--border-radius);
             text-decoration: none;
-            transition: all 0.2s;
+            transition: all 0.3s ease;
             box-shadow: var(--shadow-md);
         }
         
         .cta-btn:hover {
-            background: var(--accent2);
+            background: transparent;
+            color: var(--primary);
             transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
+            box-shadow: var(--shadow-md);
         }
         
         body.light-mode .hero {
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #3b82f6 100%);
+            background: var(--light);
         }
         
         body.light-mode .hero-title {
-            color: var(--dark);
+            color: #1e293b;
         }
         
         body.light-mode .hero-tagline {
@@ -773,15 +749,15 @@
                 text-align: center;
                 padding: 0.9rem 1.2rem;
                 font-size: 1rem;
-                background: rgba(59, 130, 246, 0.08);
+                background: var(--light);
                 border-radius: 1.2rem;
                 margin: 0.1rem 0;
                 transition: background 0.2s, color 0.2s;
                 display: block;
             }
             nav a:hover {
-                background: var(--accent);
-                color: #fff;
+                background: var(--primary);
+                color: var(--darker);
             }
             .dark-toggle {
                 position: absolute;
@@ -849,12 +825,15 @@
         if(localStorage.getItem('theme') === 'light') {
             document.body.classList.add('light-mode');
         }
+        
+        // Initialize Lucide icons
+        lucide.createIcons();
     }
     </script>
 </head>
 <body>
     <header>
-        <a href="../index.html" class="logo">Hendrik<span style="color:var(--primary);font-weight:400;">Sorensen</span></a>
+        <a href="../index.html" class="logo">Hendrik<span style="color:var(--secondary);font-weight:400;">Sorensen</span></a>
         <nav aria-label="Main Navigation">
             <a href="../index.html">Home</a>
             <a href="#overview">Overview</a>
@@ -864,7 +843,7 @@
             <a href="#build">Build</a>
         </nav>
         <button class="dark-toggle" onclick="toggleDarkMode()" aria-label="Toggle dark/light mode">
-            <i class="fas fa-moon"></i>
+            <i data-lucide="moon"></i>
         </button>
     </header>
     
@@ -875,7 +854,7 @@
                 <div class="hero-tagline">A Real-Time Raytraced Voxel World Engine<br>by Hendrik Sorensen</div>
                 <div class="hero-cta">
                     <a href="#demo" class="cta-btn">
-                        <i class="fas fa-play"></i>
+                        <i data-lucide="play"></i>
                         See Demo
                     </a>
                     <a href="https://github.com/hnsorens/VoxelEngine" class="cta-btn" target="_blank">
@@ -894,13 +873,13 @@
                 <strong>Vulkan Voxel Engine</strong> is a next-generation, real-time voxel world renderer and simulator, built from scratch in C++ and GLSL. Leveraging Vulkan's hardware-accelerated raytracing, it delivers stunning visuals and high performance, featuring a fully procedural, multi-threaded terrain system. This project demonstrates advanced graphics programming, GPU compute, and modern game engine architecture.
             </p>
             <div class="about-highlight">
-                <i class="fas fa-bolt"></i>
+                <i data-lucide="zap"></i>
                 <div>
                     <strong>Built for performance:</strong> Real-time raytracing, multi-threaded chunk generation, and efficient GPU memory management.
                 </div>
             </div>
             <div class="about-highlight">
-                <i class="fas fa-mountain"></i>
+                <i data-lucide="mountain"></i>
                 <div>
                     <strong>Procedural worlds:</strong> Every landscape is unique, generated on the fly with FastNoiseLite.
                 </div>
@@ -912,37 +891,37 @@
         <h2>Key Features</h2>
         <div class="feature-list">
             <div class="feature-card">
-                <i class="fas fa-th-large"></i>
+                <i data-lucide="grid-3x3"></i>
                 <h3>Chunked Voxel World</h3>
                 <p>8x8x8 grid of 128³ voxel chunks (512 total), dynamically loaded and managed for seamless exploration.</p>
             </div>
             <div class="feature-card">
-                <i class="fas fa-bolt"></i>
+                <i data-lucide="zap"></i>
                 <h3>Real-Time Vulkan Raytracing</h3>
                 <p>Hardware-accelerated raytracing pipeline for primary and secondary rays, delivering cinematic visuals.</p>
             </div>
             <div class="feature-card">
-                <i class="fas fa-seedling"></i>
+                <i data-lucide="sprout"></i>
                 <h3>Procedural Terrain</h3>
                 <p>FastNoiseLite-based, multi-threaded terrain generation with rich material assignment (stone, grass, flowers, etc.).</p>
             </div>
             <div class="feature-card">
-                <i class="fas fa-database"></i>
+                <i data-lucide="database"></i>
                 <h3>Efficient Voxel Storage</h3>
                 <p>Bit-packed, chunked, and stored as GPU 3D textures for fast access and minimal memory usage.</p>
             </div>
             <div class="feature-card">
-                <i class="fas fa-shapes"></i>
+                <i data-lucide="shapes"></i>
                 <h3>Raymarching in Shaders</h3>
                 <p>Custom GLSL march function for LOD-aware, efficient intersection and traversal.</p>
             </div>
             <div class="feature-card">
-                <i class="fas fa-sync-alt"></i>
+                <i data-lucide="refresh-cw"></i>
                 <h3>Dynamic Chunk Loading</h3>
                 <p>Multi-threaded chunk generation and prioritization based on camera position for smooth streaming.</p>
             </div>
             <div class="feature-card">
-                <i class="fas fa-memory"></i>
+                <i data-lucide="cpu"></i>
                 <h3>Optimized Memory Usage</h3>
                 <p>Chunk recycling, minimal GPU transfers, and LOD-based skipping for high efficiency.</p>
             </div>
@@ -953,7 +932,7 @@
         <h2>Technical Deep Dive</h2>
         <div class="deepdive-grid">
             <div class="deepdive-card">
-                <i class="fas fa-th-large"></i>
+                <i data-lucide="grid-3x3"></i>
                 <h3>Chunk System</h3>
                 <ul>
                     <li>World divided into <strong>8x8x8 chunks</strong>, each 128³ voxels (512 total).</li>
@@ -963,7 +942,7 @@
                 </ul>
             </div>
             <div class="deepdive-card">
-                <i class="fas fa-seedling"></i>
+                <i data-lucide="sprout"></i>
                 <h3>Generation System</h3>
                 <ul>
                     <li>Procedural terrain using <strong>FastNoiseLite</strong> for natural landscapes.</li>
@@ -972,7 +951,7 @@
                 </ul>
             </div>
             <div class="deepdive-card">
-                <i class="fas fa-database"></i>
+                <i data-lucide="database"></i>
                 <h3>Voxel Storage</h3>
                 <ul>
                     <li>Each chunk: 128x128x128 array, stored as <code>uint8_t</code> (5 bits material, 3 bits LOD/layer).</li>
@@ -981,7 +960,7 @@
                 </ul>
             </div>
             <div class="deepdive-card">
-                <i class="fas fa-bolt"></i>
+                <i data-lucide="zap"></i>
                 <h3>Raytracing</h3>
                 <ul>
                     <li>Vulkan raytracing pipeline (<code>VK_KHR_ray_tracing</code>).</li>
@@ -991,7 +970,7 @@
                 </ul>
             </div>
             <div class="deepdive-card">
-                <i class="fas fa-shapes"></i>
+                <i data-lucide="shapes"></i>
                 <h3>Raymarching</h3>
                 <ul>
                     <li>Custom <code>march</code> function in GLSL: steps through the world, using LOD/layer info to skip empty space efficiently.</li>
@@ -1002,7 +981,7 @@
             </div>
         </div>
         <div class="deepdive-code">
-            <h4><i class="fas fa-code"></i>Example: Voxel Bit Packing (C++)</h4>
+            <h4><i data-lucide="code"></i>Example: Voxel Bit Packing (C++)</h4>
             <pre><code>// 5 bits material, 3 bits LOD/layer
 #define voxel_mat(voxel) ((voxel) & 0b11111)
 #define voxel_base(voxel) (((voxel) & 0b11100000) >> 5)
@@ -1080,7 +1059,7 @@ uint8_t lod = voxel_base(voxel);</code></pre>
                         GitHub Repo
                     </a>
                     <a href="assets/resume-example.pdf" class="cta-btn" target="_blank">
-                        <i class="fas fa-file-pdf"></i>
+                        <i data-lucide="file-text"></i>
                         Download Docs
                     </a>
                 </div>
@@ -1128,13 +1107,13 @@ uint8_t lod = voxel_base(voxel);</code></pre>
         <div class="footer-content">
             <div class="footer-social">
                 <a href="mailto:hnsorens@gmail.com" aria-label="Email">
-                    <i class="fas fa-envelope"></i>
+                    <i data-lucide="mail"></i>
                 </a>
                 <a href="https://github.com/hnsorens" target="_blank" aria-label="GitHub">
                     <i class="fab fa-github"></i>
                 </a>
                 <a href="https://linkedin.com/in/hendrik-sorensen" target="_blank" aria-label="LinkedIn">
-                    <i class="fab fa-linkedin"></i>
+                    <i class="fab fa-linkedin-in"></i>
                 </a>
             </div>
             <div class="footer-copy">

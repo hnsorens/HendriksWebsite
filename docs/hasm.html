@@ -4,43 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HASM - Assembly Language Documentation</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <style>
         @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
         :root {
-            --primary: #e2e8f0;
-            --secondary: #94a3b8;
+            --primary: #f8fafc;
+            --secondary: #cbd5e1;
             --dark: #0f172a;
             --darker: #020617;
-            --light: #f1f5f9;
-            --lighter: #f8fafc;
-            --accent: #3b82f6;
-            --accent2: #1d4ed8;
-            --divider: #334155;
+            --light: #1e293b;
+            --lighter: #334155;
+            --accent: #f8fafc;
+            --accent2: #e2e8f0;
+            --divider: #475569;
             --header-height: 4rem;
-            --border-radius: 12px;
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --border-radius: 8px;
+            --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.3);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.4);
         }
         body.light-mode {
             --primary: #0f172a;
-            --secondary: #334155;
+            --secondary: #475569;
             --dark: #ffffff;
             --darker: #f8fafc;
             --light: #f1f5f9;
             --lighter: #e2e8f0;
-            --accent: #2563eb;
-            --accent2: #1d4ed8;
-            --divider: #94a3b8;
+            --accent: #0f172a;
+            --accent2: #1e293b;
+            --divider: #cbd5e1;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             color: var(--primary);
-            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+            background: var(--darker);
             font-size: 1.05rem;
             line-height: 1.7;
             min-height: 100vh;
@@ -84,13 +84,13 @@
             align-items: center;
             gap: 10px;
             font-weight: 700;
-            color: var(--accent);
+            color: var(--primary);
             font-size: 1.6rem;
             letter-spacing: -0.5px;
         }
         
         .sidebar-header h2 i {
-            color: var(--accent);
+            color: var(--primary);
         }
         
         .sidebar ul {
@@ -187,10 +187,14 @@
         
         .content-header h1 {
             font-size: 2.7rem;
-            color: var(--accent);
+            color: var(--primary);
             margin-bottom: 8px;
             font-weight: 800;
             letter-spacing: -0.5px;
+        }
+        
+        body.light-mode .content-header h1 {
+            color: #1e293b;
         }
         
         .content-header .breadcrumb {
@@ -201,13 +205,13 @@
         }
         
         .content-header .breadcrumb a {
-            color: var(--accent);
+            color: var(--primary);
             text-decoration: none;
             transition: color 0.2s;
         }
         
         .content-header .breadcrumb a:hover {
-            color: var(--accent2);
+            color: var(--secondary);
         }
         
         section {
@@ -243,10 +247,16 @@
         }
         
         section h4 {
-            color: var(--accent);
+            color: var(--primary);
             margin: 15px 0 10px;
             font-size: 1.1rem;
             font-weight: 600;
+        }
+        
+        body.light-mode section h2,
+        body.light-mode section h3,
+        body.light-mode section h4 {
+            color: #1e293b;
         }
         
         section p, section li {
@@ -355,8 +365,8 @@
         
         /* Alert Boxes */
         .alert {
-            background: rgba(59,130,246,0.07);
-            border-left: 4px solid var(--accent);
+            background: var(--light);
+            border-left: 4px solid var(--primary);
             border-radius: 8px;
             padding: 1.1em 1.5em;
             margin: 1.5em 0;
@@ -366,7 +376,7 @@
         }
         
         .alert-note {
-            border-left-color: var(--accent);
+            border-left-color: var(--primary);
         }
         
         .alert-warning {
@@ -387,7 +397,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            color: var(--accent);
+            color: var(--primary);
             font-size: 1.08em;
         }
         
@@ -456,7 +466,7 @@
         /* Instruction Signature */
         .signature {
             background: var(--darker);
-            border-left: 4px solid var(--accent);
+            border-left: 4px solid var(--primary);
             border: 1px solid var(--divider);
             border-radius: 2px;
             box-shadow: none;
@@ -495,15 +505,15 @@
         .flags-table {
             width: 100%;
             min-width: 320px;
-            background: linear-gradient(120deg, var(--darker) 80%, var(--accent) 100%);
+            background: var(--light);
             border-radius: 14px;
-            box-shadow: 0 2px 16px 0 rgb(59 130 246 / 0.10);
+            box-shadow: 0 2px 16px 0 rgb(0 0 0 / 0.10);
             margin: 18px 0 24px 0;
             border: none;
             overflow: hidden;
         }
         body.light-mode .flags-table {
-            background: linear-gradient(120deg, #f1f5f9 80%, var(--accent) 100%);
+            background: var(--lighter);
         }
         .flags-table tr {
             border-bottom: 1px solid var(--divider);
@@ -522,11 +532,11 @@
             border-radius: 999px;
             font-size: 1em;
             font-weight: 600;
-            color: #fff;
+            color: var(--darker);
             margin-right: 8px;
             letter-spacing: 0.03em;
             box-shadow: 0 1px 4px 0 rgb(0 0 0 / 0.10);
-            background: linear-gradient(90deg, var(--accent2), var(--accent));
+            background: var(--primary);
             border: none;
         }
         .flag-badge.OF { background: linear-gradient(90deg, #f59e42, #fbbf24); }
@@ -591,7 +601,7 @@
         }
         
         .dark-toggle:hover {
-            color: var(--accent);
+            color: var(--secondary);
         }
         .editor-container {
     border: 1px solid var(--divider);
@@ -741,13 +751,13 @@
     border: 1px solid var(--divider);
 }
 
-.register-display h3 {
-    margin-bottom: 15px;
-    color: var(--accent);
-    border-bottom: 1px solid var(--divider);
-    padding-bottom: 8px;
-    font-weight: 600;
-}
+        .register-display h3 {
+            margin-bottom: 15px;
+            color: var(--primary);
+            border-bottom: 1px solid var(--divider);
+            padding-bottom: 8px;
+            font-weight: 600;
+        }
 
 .register-grid {
     display: grid;
@@ -760,11 +770,11 @@
     flex-direction: column;
 }
 
-.register-name {
-    font-weight: bold;
-    color: var(--accent);
-    font-family: 'Fira Code', monospace;
-}
+        .register-name {
+            font-weight: bold;
+            color: var(--primary);
+            font-family: 'Fira Code', monospace;
+        }
 
 .register-value {
     font-family: 'Fira Code', monospace;
@@ -863,20 +873,20 @@
     </style>
 </head>
 <body>
-    <button class="dark-toggle" onclick="toggleDarkMode()" aria-label="Toggle dark/light mode"><i class="fas fa-moon"></i></button>
+            <button class="dark-toggle" onclick="toggleDarkMode()" aria-label="Toggle dark/light mode"><i data-lucide="moon"></i></button>
     <div class="container">
         <div class="sidebar">
             <div class="sidebar-header">
-                <h2><i class="fas fa-cog"></i> HASM Documentation</h2>
+                <h2><i data-lucide="settings"></i> HASM Documentation</h2>
             </div>
             <ul>
-                <li><a href="#Overview" class="active"><i class="fas fa-home"></i> Overview</a></li>
-                <li><a href="#Immediate"><i class="fas fa-hashtag"></i> Immediate Values</a></li>
-                <li><a href="#Registers"><i class="fas fa-memory"></i> Registers</a></li>
-                <li><a href="#Memory"><i class="fas fa-database"></i> Memory</a></li>
+                <li><a href="#Overview" class="active"><i data-lucide="home"></i> Overview</a></li>
+                <li><a href="#Immediate"><i data-lucide="hash"></i> Immediate Values</a></li>
+                <li><a href="#Registers"><i data-lucide="cpu"></i> Registers</a></li>
+                <li><a href="#Memory"><i data-lucide="database"></i> Memory</a></li>
                 <li>
                     <details>
-                        <summary><i class="fas fa-file-code"></i> Program Structure</summary>
+                        <summary><i data-lucide="file-code"></i> Program Structure</summary>
                         <ul>
                             <li><a href="#Global">GLOBAL Directive</a></li>
                             <li><a href="#Sections">SECTION Directive</a></li>
@@ -886,7 +896,7 @@
                 </li>
                 <li>
                     <details>
-                        <summary><i class="fas fa-cube"></i> Data Definitions</summary>
+                        <summary><i data-lucide="box"></i> Data Definitions</summary>
                         <ul>
                             <li><a href="#DB">DB Directive</a></li>
                             <li><a href="#DW">DW Directive</a></li>
@@ -898,7 +908,7 @@
                 </li>
                 <li>
                     <details open>
-                        <summary><i class="fas fa-exchange-alt"></i> Data Movement</summary>
+                        <summary><i data-lucide="move"></i> Data Movement</summary>
                         <ul>
                             <li><a href="#MOV">MOV Instruction</a></li>
                             <li><a href="#PUSH">PUSH Instruction</a></li>
@@ -910,7 +920,7 @@
                 </li>
                 <li>
                     <details>
-                        <summary><i class="fas fa-calculator"></i> Arithmetic Operations</summary>
+                        <summary><i data-lucide="calculator"></i> Arithmetic Operations</summary>
                         <ul>
                             <li><a href="#ADD">ADD Instruction</a></li>
                             <li><a href="#SUB">SUB Instruction</a></li>
@@ -928,7 +938,7 @@
                 </li>
                 <li>
                     <details>
-                        <summary><i class="fas fa-binary"></i> Logical and Bitwise</summary>
+                        <summary><i data-lucide="binary"></i> Logical and Bitwise</summary>
                         <ul>
                             <li><a href="#AND">AND Instruction</a></li>
                             <li><a href="#OR">OR Instruction</a></li>
@@ -940,7 +950,7 @@
                 </li>
                 <li>
                     <details>
-                        <summary><i class="fas fa-code-branch"></i> Comparison and Jumps</summary>
+                        <summary><i data-lucide="git-branch"></i> Comparison and Jumps</summary>
                         <ul>
                             <li><a href="#CMP">CMP Instruction</a></li>
                             <li><a href="#JO">JO Instruction</a></li>
@@ -964,7 +974,7 @@
                 </li>
                 <li>
                     <details>
-                        <summary><i class="fas fa-project-diagram"></i> Control Flow</summary>
+                        <summary><i data-lucide="workflow"></i> Control Flow</summary>
                         <ul>
                             <li><a href="#JMP">JMP Instruction</a></li>
                             <li><a href="#CALL">CALL Instruction</a></li>
@@ -976,7 +986,7 @@
                 </li>
                 <li>
                     <details>
-                        <summary><i class="fas fa-exclamation-triangle"></i> Interrupts and System</summary>
+                        <summary><i data-lucide="alert-triangle"></i> Interrupts and System</summary>
                         <ul>
                             <li><a href="#INT">INT Instruction</a></li>
                         </ul>
@@ -984,7 +994,7 @@
                 </li>
                 <li>
                     <details>
-                        <summary><i class="fas fa-ellipsis-h"></i> Miscellaneous</summary>
+                        <summary><i data-lucide="more-horizontal"></i> Miscellaneous</summary>
                         <ul>
                             <li><a href="#NOP">NOP Instruction</a></li>
                         </ul>
@@ -998,11 +1008,11 @@
             </div>
 
             <section id="Overview">
-                <h2><i class="fas fa-home"></i> Overview</h2>
+                <h2><i data-lucide="home"></i> Overview</h2>
                 <p>HASM is a modern assembly language designed for 32-bit and 64-bit architectures. This documentation provides a comprehensive reference for the instruction set, register usage, memory addressing modes, and programming conventions.</p>
                 
                 <div class="alert alert-note">
-                    <div class="alert-title"><i class="fas fa-info-circle"></i> Note</div>
+                    <div class="alert-title"><i data-lucide="info"></i> Note</div>
                     <p>This documentation assumes familiarity with basic computer architecture concepts. For beginners, we recommend starting with an introductory assembly programming guide before diving into this reference.</p>
                 </div>
                 
@@ -1017,7 +1027,7 @@
             </section>
             
             <section id="Immediate">
-                <h2><i class="fas fa-hashtag"></i> Immediate Values</h2>
+                <h2><i data-lucide="hash"></i> Immediate Values</h2>
                 <p>Immediate values are constant values directly embedded in instructions. They can be represented in multiple formats:</p>
                 
                 <table>
@@ -1048,13 +1058,13 @@
                 </table>
                 
                 <div class="alert alert-warning">
-                    <div class="alert-title"><i class="fas fa-exclamation-triangle"></i> Important</div>
+                    <div class="alert-title"><i data-lucide="alert-triangle"></i> Important</div>
                     <p>Immediate values must fit within the size constraints of the operation. Using a value that's too large for the target operand will result in truncation or an error.</p>
                 </div>
             </section>
             
             <section id="Registers">
-                <h2><i class="fas fa-memory"></i> Registers</h2>
+                <h2><i data-lucide="cpu"></i> Registers</h2>
                 <p>Registers are small, fast storage locations within the CPU. HASM provides registers in various sizes for different purposes.</p>
                 
                 <h3>Register Categories</h3>
@@ -1164,7 +1174,7 @@
             </section>
             
             <section id="Memory">
-                <h2><i class="fas fa-database"></i> Memory Addressing</h2>
+                <h2><i data-lucide="database"></i> Memory Addressing</h2>
                 <p>Memory in HASM is accessed through various addressing modes that calculate effective addresses.</p>
                 
                 <h3>Addressing Modes</h3>
@@ -2701,6 +2711,9 @@ array: DQ 10, 20, 30, 40`
         if(localStorage.getItem('theme') === 'light') {
             document.body.classList.add('light-mode');
         }
+        
+        // Initialize Lucide icons
+        lucide.createIcons();
     }
 </script>
 </body>

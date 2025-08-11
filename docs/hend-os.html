@@ -5,46 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Hendrik Sorensen - HendOS Development Documentation">
     <title>HendOS Documentation | Hendrik Sorensen</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
     <style>
         @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
         :root {
-            --primary: #e2e8f0;
-            --secondary: #94a3b8;
+            --primary: #f8fafc;
+            --secondary: #cbd5e1;
             --dark: #0f172a;
             --darker: #020617;
-            --light: #f1f5f9;
-            --lighter: #f8fafc;
-            --accent: #3b82f6;
-            --accent2: #1d4ed8;
-            --divider: #334155;
+            --light: #1e293b;
+            --lighter: #334155;
+            --accent: #f8fafc;
+            --accent2: #e2e8f0;
+            --divider: #475569;
             --header-height: 4rem;
-            --border-radius: 12px;
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --border-radius: 8px;
+            --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.3);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.4);
             --success: #2ecc71;
             --warning: #f39c12;
             --danger: #e74c3c;
         }
         body.light-mode {
             --primary: #0f172a;
-            --secondary: #334155;
+            --secondary: #475569;
             --dark: #ffffff;
             --darker: #f8fafc;
             --light: #f1f5f9;
             --lighter: #e2e8f0;
-            --accent: #2563eb;
-            --accent2: #1d4ed8;
-            --divider: #94a3b8;
+            --accent: #0f172a;
+            --accent2: #1e293b;
+            --divider: #cbd5e1;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             color: var(--primary);
-            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+            background: var(--darker);
             font-size: 1.05rem;
             line-height: 1.7;
             min-height: 100vh;
@@ -88,13 +88,13 @@
             align-items: center;
             gap: 10px;
             font-weight: 700;
-            color: var(--accent);
+            color: var(--primary);
             font-size: 1.6rem;
             letter-spacing: -0.5px;
         }
         
         .sidebar-header h2 i {
-            color: var(--accent);
+            color: var(--primary);
         }
         
         .sidebar ul {
@@ -191,10 +191,14 @@
         
         .content-header h1 {
             font-size: 2.5rem;
-            color: var(--accent);
+            color: var(--primary);
             margin-bottom: 10px;
             font-weight: 700;
             letter-spacing: 0.5px;
+        }
+        
+        body.light-mode .content-header h1 {
+            color: #1e293b;
         }
         
         .content-header .breadcrumb {
@@ -205,13 +209,13 @@
         }
         
         .content-header .breadcrumb a {
-            color: var(--accent);
+            color: var(--primary);
             text-decoration: none;
             transition: color 0.2s;
         }
         
         .content-header .breadcrumb a:hover {
-            color: var(--accent2);
+            color: var(--secondary);
         }
         
         section {
@@ -238,7 +242,7 @@
         }
         
         section h2 i {
-            color: var(--accent);
+            color: var(--primary);
         }
         
         section h3 {
@@ -251,10 +255,16 @@
         }
         
         section h4 {
-            color: var(--accent);
+            color: var(--primary);
             margin: 15px 0 10px;
             font-size: 1.1rem;
             font-weight: 600;
+        }
+        
+        body.light-mode section h2,
+        body.light-mode section h3,
+        body.light-mode section h4 {
+            color: #1e293b;
         }
         
         section p, section li {
@@ -314,7 +324,7 @@
         .memory-size {
             width: 120px;
             text-align: right;
-            color: var(--accent);
+            color: var(--primary);
             font-family: 'Fira Code', monospace;
         }
         
@@ -389,8 +399,8 @@
         
         /* Alert Boxes */
         .alert {
-            background: rgba(59,130,246,0.07);
-            border-left: 4px solid var(--accent);
+            background: var(--light);
+            border-left: 4px solid var(--primary);
             border-radius: 8px;
             padding: 1.1em 1.5em;
             margin: 1.5em 0;
@@ -400,7 +410,7 @@
         }
         
         .alert-note {
-            border-left-color: var(--accent);
+            border-left-color: var(--primary);
         }
         
         .alert-warning {
@@ -421,7 +431,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            color: var(--accent);
+            color: var(--primary);
             font-size: 1.08em;
         }
         
@@ -484,7 +494,7 @@
         }
         
         .dark-toggle:hover {
-            color: var(--accent);
+            color: var(--secondary);
         }
         
         /* Animation for sections */
@@ -544,7 +554,7 @@
 
         .stdlib-header i {
             transition: transform 0.2s;
-            color: #3b82f6;
+            color: var(--primary);
         }
 
         .stdlib-header.collapsed i {
@@ -597,7 +607,7 @@
         }
 
         .function-signature .return-type {
-            color: var(--accent);
+            color: var(--primary);
         }
 
         .function-signature .function-name {
@@ -725,18 +735,18 @@
     </style>
 </head>
 <body>
-    <button class="dark-toggle" onclick="toggleDarkMode()" aria-label="Toggle dark/light mode"><i class="fas fa-moon"></i></button>
+            <button class="dark-toggle" onclick="toggleDarkMode()" aria-label="Toggle dark/light mode"><i data-lucide="moon"></i></button>
     <div class="container">
         <div class="sidebar">
             <div class="sidebar-header">
-                <h2><i class="fas fa-cog"></i> HendOS Documentation</h2>
+                <h2><i data-lucide="settings"></i> HendOS Documentation</h2>
             </div>
             <ul>
-                <li><a href="#overview" class="active"><i class="fas fa-info-circle"></i> System Overview</a></li>
-                <li><a href="#std"><i class="fas fa-book"></i> Standard Library</a></li>
+                <li><a href="#overview" class="active"><i data-lucide="info"></i> System Overview</a></li>
+                <li><a href="#std"><i data-lucide="book-open"></i> Standard Library</a></li>
                 <li>
                     <details>
-                        <summary><i class="fas fa-cogs"></i> Kernel Setup</summary>
+                        <summary><i data-lucide="settings"></i> Kernel Setup</summary>
                         <ul>
                             <li><a href="#uefi-bootloader">UEFI Bootloader</a></li>
                             <li><a href="#boot-services">Boot Services</a></li>
@@ -746,7 +756,7 @@
                 </li>
                 <li>
                     <details>
-                        <summary><i class="fas fa-microchip"></i> Core Systems</summary>
+                        <summary><i data-lucide="cpu"></i> Core Systems</summary>
                         <ul>
                             <li><a href="#gdt">GDT</a></li>
                             <li><a href="#idt">IDT</a></li>
@@ -757,7 +767,7 @@
                 </li>
                 <li>
                     <details>
-                        <summary><i class="fas fa-plug"></i> Device Drivers</summary>
+                        <summary><i data-lucide="plug"></i> Device Drivers</summary>
                         <ul>
                             <li><a href="#fbcon">Framebuffer Console</a></li>
                             <li><a href="#vcon">Virtual Console</a></li>
@@ -767,7 +777,7 @@
                 </li>
                 <li>
                     <details>
-                        <summary><i class="fas fa-memory"></i> Memory Management</summary>
+                        <summary><i data-lucide="cpu"></i> Memory Management</summary>
                         <ul>
                             <li><a href="#vmmap">Virtual Memory Map</a></li>
                             <li><a href="#globals">Global Variables</a></li>
@@ -780,7 +790,7 @@
                 </li>
                 <li>
                     <details>
-                        <summary><i class="fas fa-tasks"></i> Process Management</summary>
+                        <summary><i data-lucide="list-todo"></i> Process Management</summary>
                         <ul>
                             <li><a href="#proc-structs">Process Structures</a></li>
                             <li><a href="#scheduler">Scheduler</a></li>
@@ -790,7 +800,7 @@
                 </li>
                 <li>
                     <details>
-                        <summary><i class="fas fa-folder-open"></i> Filesystem</summary>
+                        <summary><i data-lucide="folder-open"></i> Filesystem</summary>
                         <ul>
                             <li><a href="#vfs">VFS</a></li>
                             <li><a href="#fdm">File Descriptor Manager</a></li>
@@ -798,7 +808,7 @@
                         </ul>
                     </details>
                 </li>
-                <li><a href="#shell"><i class="fas fa-terminal"></i> Shell</a></li>
+                <li><a href="#shell"><i data-lucide="terminal"></i> Shell</a></li>
             </ul>
         </div>
         <div class="content">
@@ -3036,6 +3046,9 @@ pid_t waitpid(pid_t pid, int* stat_loc, int options);
             if(localStorage.getItem('theme') === 'light') {
                 document.body.classList.add('light-mode');
             }
+            
+            // Initialize Lucide icons
+            lucide.createIcons();
         }
     </script>
 </body>

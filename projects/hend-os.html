@@ -9,37 +9,38 @@
     <meta property="og:image" content="assets/os-cover.png">
     <meta property="og:type" content="website">
     <title>HendOS | Custom Unix-like Operating System</title>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap");
         
         :root {
-            --primary: #e2e8f0;
-            --secondary: #94a3b8;
+            --primary: #f8fafc;
+            --secondary: #cbd5e1;
             --dark: #0f172a;
             --darker: #020617;
-            --light: #f1f5f9;
-            --lighter: #f8fafc;
-            --accent: #3b82f6;
-            --accent2: #1d4ed8;
-            --divider: #334155;
+            --light: #1e293b;
+            --lighter: #334155;
+            --accent: #f8fafc;
+            --accent2: #e2e8f0;
+            --divider: #475569;
             --header-height: 4rem;
-            --border-radius: 12px;
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --border-radius: 8px;
+            --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.3);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.4);
         }
         
         body.light-mode {
             --primary: #0f172a;
-            --secondary: #334155;
+            --secondary: #475569;
             --dark: #ffffff;
             --darker: #f8fafc;
             --light: #f1f5f9;
             --lighter: #e2e8f0;
-            --accent: #2563eb;
-            --accent2: #1d4ed8;
-            --divider: #94a3b8;
+            --accent: #0f172a;
+            --accent2: #1e293b;
+            --divider: #cbd5e1;
         }
         
         * { 
@@ -57,7 +58,7 @@
             font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
             min-height: 100vh;
             color: var(--primary);
-            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+            background: var(--darker);
             font-size: 1rem;
             line-height: 1.7;
             overflow-x: hidden;
@@ -93,7 +94,7 @@
             justify-content: space-between; 
             align-items: center;
             z-index: 1000;
-            background: rgba(15, 23, 42, 0.95);
+            background: rgba(2, 6, 23, 0.98);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--divider);
             box-shadow: var(--shadow-md);
@@ -101,14 +102,14 @@
         }
         
         body.light-mode header {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.98);
             box-shadow: var(--shadow-md);
         }
         
         .logo {
             font-size: 1.75rem;
             font-weight: 700;
-            color: var(--accent);
+            color: var(--primary);
             text-decoration: none;
             letter-spacing: -0.025em;
         }
@@ -119,23 +120,23 @@
         }
         
         nav a {
-            color: var(--primary);
+            color: var(--secondary);
             text-decoration: none;
             font-weight: 500;
             font-size: 0.95rem;
             padding: 0.5rem 0;
-            transition: color 0.2s;
+            transition: all 0.2s;
             position: relative;
         }
         
-        nav a::after {
+                nav a::after {
             content: '';
-            position: absolute; 
+            position: absolute;
             bottom: 0; 
             left: 0; 
             width: 0; 
             height: 2px;
-            background: var(--accent);
+            background: var(--primary);
             transition: width 0.2s;
         }
         
@@ -144,23 +145,24 @@
         }
         
         nav a:hover { 
-            color: var(--accent); 
+            color: var(--primary); 
         }
         
         .dark-toggle {
             background: none;
-            border: none;
-            color: var(--primary);
+            border: 1px solid var(--divider);
+            color: var(--secondary);
             font-size: 1.25rem;
             cursor: pointer;
             padding: 0.5rem;
-            border-radius: 8px;
+            border-radius: 6px;
             transition: all 0.2s;
         }
         
         .dark-toggle:hover { 
-            color: var(--accent);
-            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary);
+            background: var(--light);
+            border-color: var(--primary);
         }
         
         /* Main Layout */
@@ -180,7 +182,7 @@
             align-items: center;
             justify-content: center;
             padding: 6rem 2rem 4rem 2rem;
-            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 50%, var(--accent) 100%);
+            background: var(--dark);
             position: relative;
             overflow: hidden;
         }
@@ -188,40 +190,13 @@
         .hero::before {
             content: '';
             position: absolute;
-            top: -50%; 
-            left: -50%; 
-            width: 200%; 
-            height: 200%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: 
-                conic-gradient(from 0deg at 20% 80%, 
-                    rgba(59, 130, 246, 0.1) 0deg, 
-                    rgba(29, 78, 216, 0.05) 120deg, 
-                    rgba(37, 99, 235, 0.08) 240deg, 
-                    rgba(59, 130, 246, 0.1) 360deg),
-                conic-gradient(from 180deg at 80% 20%, 
-                    rgba(29, 78, 216, 0.08) 0deg, 
-                    rgba(37, 99, 235, 0.06) 90deg, 
-                    rgba(59, 130, 246, 0.04) 180deg, 
-                    rgba(29, 78, 216, 0.08) 360deg);
-            animation: swirl 25s linear infinite;
-        }
-        
-        @keyframes swirl {
-            0% { 
-                filter: hue-rotate(0deg);
-            }
-            25% { 
-                filter: hue-rotate(90deg);
-            }
-            50% { 
-                filter: hue-rotate(180deg);
-            }
-            75% { 
-                filter: hue-rotate(270deg);
-            }
-            100% { 
-                filter: hue-rotate(360deg);
-            }
+                radial-gradient(circle at 20% 80%, rgba(248, 250, 252, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(248, 250, 252, 0.02) 0%, transparent 50%);
         }
         
         .hero-content {
@@ -261,9 +236,9 @@
             padding: 1rem 2rem;
             font-size: 1rem;
             font-weight: 600;
-            color: #fff;
-            background: var(--accent);
-            border: none;
+            color: var(--darker);
+            background: var(--primary);
+            border: 2px solid var(--primary);
             border-radius: var(--border-radius);
             text-decoration: none;
             transition: all 0.2s;
@@ -271,17 +246,18 @@
         }
         
         .cta-btn:hover {
-            background: var(--accent2);
+            background: transparent;
+            color: var(--primary);
             transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
+            box-shadow: var(--shadow-md);
         }
         
         body.light-mode .hero {
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #3b82f6 100%);
+            background: var(--light);
         }
         
         body.light-mode .hero-title {
-            color: var(--dark);
+            color: #1e293b;
         }
         
         body.light-mode .hero-tagline {
@@ -327,8 +303,8 @@
         }
         
         .about-highlight {
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.2);
+            background: var(--light);
+            border: 1px solid var(--divider);
             border-radius: var(--border-radius);
             padding: 1.5rem;
             margin: 1.5rem 0;
@@ -339,14 +315,14 @@
         }
         
         .about-highlight i {
-            color: var(--accent);
+            color: var(--primary);
             font-size: 1.25rem;
             flex-shrink: 0;
         }
         
         body.light-mode .about-highlight {
-            background: rgba(37, 99, 235, 0.08);
-            border-color: rgba(37, 99, 235, 0.3);
+            background: var(--lighter);
+            border-color: var(--divider);
         }
         
         /* Features Section */
@@ -358,23 +334,22 @@
         }
         
         .feature-card {
-            background: rgba(255, 255, 255, 0.02);
+            background: var(--light);
             border: 1px solid var(--divider);
             border-radius: var(--border-radius);
             padding: 2rem;
             text-align: center;
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
         }
         
         .feature-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--accent);
-            box-shadow: var(--shadow-lg);
+            transform: translateY(-3px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-md);
         }
         
         .feature-card i {
-            color: var(--accent);
+            color: var(--primary);
             font-size: 2.5rem;
             margin-bottom: 1.5rem;
         }
@@ -391,9 +366,8 @@
         }
         
         body.light-mode .feature-card {
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: var(--shadow-sm);
-            border-color: #cbd5e1;
+            background: var(--lighter);
+            border-color: var(--divider);
         }
         
         /* Subsystems Section */
@@ -405,12 +379,11 @@
         }
         
         .subsystem-card {
-            background: rgba(255, 255, 255, 0.02);
+            background: var(--light);
             border: 1px solid var(--divider);
             border-radius: var(--border-radius);
             padding: 2rem;
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
         }
         
         .subsystem-card:hover {
@@ -452,9 +425,8 @@
         }
         
         body.light-mode .subsystem-card {
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: var(--shadow-sm);
-            border-color: #cbd5e1;
+            background: var(--lighter);
+            border-color: var(--divider);
         }
         
         /* Userland Section */
@@ -664,15 +636,15 @@
                 text-align: center;
                 padding: 0.9rem 1.2rem;
                 font-size: 1rem;
-                background: rgba(59, 130, 246, 0.08);
+                background: var(--light);
                 border-radius: 1.2rem;
                 margin: 0.1rem 0;
                 transition: background 0.2s, color 0.2s;
                 display: block;
             }
             nav a:hover {
-                background: var(--accent);
-                color: #fff;
+                background: var(--primary);
+                color: var(--darker);
             }
             .dark-toggle {
                 position: absolute;
@@ -741,6 +713,9 @@
         if(localStorage.getItem('theme') === 'light') {
             document.body.classList.add('light-mode');
         }
+        
+        // Initialize Lucide icons
+        lucide.createIcons();
     }
     </script>
 </head>
@@ -756,7 +731,7 @@
             <a href="#build">Build</a>
         </nav>
         <button class="dark-toggle" onclick="toggleDarkMode()" aria-label="Toggle dark/light mode">
-            <i class="fas fa-moon"></i>
+            <i data-lucide="moon"></i>
         </button>
     </header>
     
@@ -767,11 +742,11 @@
                 <div class="hero-tagline">A Custom Unix-like x86-64 Operating System<br>by Hendrik Sorensen</div>
                 <div class="hero-cta">
                     <a href="#demo" class="cta-btn">
-                        <i class="fas fa-play"></i>
+                        <i data-lucide="play"></i>
                         See Demo
                     </a>
                     <a href="../docs/hend-os.html" class="cta-btn">
-                        <i class="fas fa-book"></i>
+                        <i data-lucide="book-open"></i>
                         Read Documentation
                     </a>
                 </div>
@@ -786,13 +761,13 @@
                 <strong>HendOS</strong> is a custom, educational Unix-like operating system for x86-64, built from scratch in C and assembly. It features a modern kernel, UEFI boot, multitasking, virtual memory, a custom shell, and a userland with core utilities. The project demonstrates low-level systems programming, OS architecture, and hardware interfacing.
             </p>
             <div class="about-highlight">
-                <i class="fas fa-cogs"></i>
+                <i data-lucide="settings"></i>
                 <div>
                     <strong>Complete OS stack:</strong> From UEFI bootloader to userland applications, every component is custom-built.
                 </div>
             </div>
             <div class="about-highlight">
-                <i class="fas fa-shield-alt"></i>
+                <i data-lucide="shield"></i>
                 <div>
                     <strong>Modern architecture:</strong> x86-64, virtual memory, multitasking, and POSIX-compatible system calls.
                 </div>
@@ -804,52 +779,52 @@
         <h2>Implemented Features</h2>
         <div class="feature-list">
             <div class="feature-card">
-                <i class="fas fa-boot"></i>
+                <i data-lucide="hard-drive"></i>
                 <h3>Boot & Kernel Init</h3>
                 <p>UEFI bootloader/stub, assembly startup, page-aligned kernel memory layout</p>
             </div>
             <div class="feature-card">
-                <i class="fas fa-memory"></i>
+                <i data-lucide="cpu"></i>
                 <h3>Memory Management</h3>
                 <p>Physical memory map parsing, PML4 page tables, virtual memory, page fault handling</p>
             </div>
             <div class="feature-card">
-                <i class="fas fa-bolt"></i>
+                <i data-lucide="zap"></i>
                 <h3>Interrupt Handling</h3>
                 <p>IDT, ISRs for CPU faults, APIC/PIC, timer setup, context switch code</p>
             </div>
             <div class="feature-card">
-                <i class="fas fa-tasks"></i>
+                <i data-lucide="list-todo"></i>
                 <h3>Process Management</h3>
                 <p>PCB design, fork(), ELF loader, user/kernel mode transitions, scheduler</p>
             </div>
             <div class="feature-card">
-                <i class="fas fa-users"></i>
+                <i data-lucide="users"></i>
                 <h3>Process Groups & Signals</h3>
                 <p>PGID/SID, setsid(), signal definitions, signal delivery and masking</p>
             </div>
             <div class="feature-card">
-                <i class="fas fa-terminal"></i>
+                <i data-lucide="terminal"></i>
                 <h3>Terminals & Shell</h3>
                 <p>Keyboard driver, line discipline, TTY master/slave, job control, userland shell</p>
             </div>
             <div class="feature-card">
-                <i class="fas fa-folder"></i>
+                <i data-lucide="folder"></i>
                 <h3>File & I/O System</h3>
                 <p>File descriptor table per process, VFS abstraction, ext2 driver</p>
             </div>
             <div class="feature-card">
-                <i class="fas fa-code"></i>
+                <i data-lucide="code"></i>
                 <h3>Syscalls & libc</h3>
                 <p>Syscall mechanism, syscall table/dispatcher, minimal libc implementation</p>
             </div>
             <div class="feature-card">
-                <i class="fas fa-rocket"></i>
+                <i data-lucide="rocket"></i>
                 <h3>Init System & Services</h3>
                 <p>PID 1 init process, shell from init, system services</p>
             </div>
             <div class="feature-card">
-                <i class="fas fa-tools"></i>
+                <i data-lucide="wrench"></i>
                 <h3>Tooling</h3>
                 <p>Cross-compiler toolchain, QEMU run script, disk image builder</p>
             </div>
@@ -1007,11 +982,11 @@ make
 make run</code></pre>
                 <div class="build-links">
                     <a href="../docs/hend-os.html" class="cta-btn">
-                        <i class="fas fa-book"></i>
+                        <i data-lucide="book-open"></i>
                         Read Documentation
                     </a>
                     <a href="assets/resume-example.pdf" class="cta-btn" target="_blank">
-                        <i class="fas fa-file-pdf"></i>
+                        <i data-lucide="file-text"></i>
                         Download Docs
                     </a>
                 </div>
@@ -1023,14 +998,14 @@ make run</code></pre>
         <div class="footer-content">
             <div class="footer-social">
                 <a href="mailto:hnsorens@gmail.com" aria-label="Email">
-                    <i class="fas fa-envelope"></i>
+                    <i data-lucide="mail"></i>
                 </a>
-                <a href="https://github.com/hnsorens" target="_blank" aria-label="GitHub">
-                    <i class="fab fa-github"></i>
-                </a>
-                <a href="https://linkedin.com/in/hendrik-sorensen" target="_blank" aria-label="LinkedIn">
-                    <i class="fab fa-linkedin"></i>
-                </a>
+                                    <a href="https://github.com/hnsorens" target="_blank" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://linkedin.com/in/hendrik-sorensen" target="_blank" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
             </div>
             <div class="footer-copy">
                 &copy; 2025 Hendrik Sorensen. All rights reserved.
